@@ -9,7 +9,8 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <header className="App-header">
+          <header>
+            <img alt="feg bar logo" src="https://image.ibb.co/nmFL6d/untitled.png"/>
           </header>
           <FegBar />
           <footer>
