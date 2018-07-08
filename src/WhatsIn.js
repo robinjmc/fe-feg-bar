@@ -21,35 +21,46 @@ class WhatsIn extends Component {
         return (
             <div>
                 <h1>Groceries of the Week</h1>
-                <div>
+
+                <div id="whatsinfeg">
                     {
                         groceries.filter(feg => {
                             return feg.at_its_best.includes(month._id)
                         }).map(feg => {
                             let type = types.find(type => type._id === feg.type)
                             return (
-                                <div key={feg._id}>
-                                    <h1>{feg.name}</h1>
-                                    <h3>Available in</h3>
-                                    <div>
-                                        {
-                                            feg.season.map(available => {
-                                                let seas = seasons.find((s)=> s._id === available)
-                                                return (
-                                                <div key={seas._id}>
-                                                    <p>{seas.name}</p>
+                                <div style={{ padding: "10px" }} key={feg._id}>
+                                    <div id="feg">
+                                        <h1>{feg.name}</h1>
+                                        <div >
+                                            <img id="feg_img" alt={feg.slug} src={feg.img_url} />
+                                        </div>
+                                        <div id="feg_info">
+                                            <div>
+                                                <h3>Available in</h3>
+                                                <div >
+                                                    {
+                                                        feg.season.map(available => {
+                                                            let seas = seasons.find((s) => s._id === available)
+                                                            return (
+                                                                <div key={seas._id}>
+                                                                    <p>{seas.name}</p>
+                                                                </div>
+                                                            )
+                                                        })
+                                                    }
                                                 </div>
-                                                )
-                                            })
-                                        }
+                                            </div>
+                                            <div>
+                                                <h3>Type</h3>
+                                                <p>{type.name}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <h3>Type</h3>
-                                    <p>{type.name}</p>
-
                                 </div>
                             )
                         })
-                         //     groceries.filter(feg => {
+                        //     groceries.filter(feg => {
                         //         console.log(feg.at_its_best)
                         //     if(feg.at_its_best.filter(best_month => best_month === month._id).length > 0) {
                         //         console.log('feg')
