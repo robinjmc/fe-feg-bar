@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
+import { Link } from "react-router-dom";
 class WhatsIn extends Component {
 
     state = {
@@ -54,6 +55,27 @@ class WhatsIn extends Component {
             })
     }
 
+    postFeg = (feg, e) => {
+        console.log(JSON.stringify(feg))
+        e.preventDefault();
+        fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feggie_id}`, {
+          method: 'POST',
+          body: JSON.stringify( feg ),
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+          .then(res => {
+            return res.json()
+          })
+          .then(body => {
+            console.log(body)
+            this.setState({
+              commentStatus: 'posted'
+            })
+          })
+      }
+
     render() {
         // const { months, groceries, seasons, types, month } = this.state;
         let { at_best, coming_in, feg_types, loading } = this.state;
@@ -63,7 +85,9 @@ class WhatsIn extends Component {
         return (
             <div>
                 <h1>Groceries of the Week</h1>
-
+                <Link to='/my-feg-list'>
+                <p>Basket</p>
+                </Link>
                 <div id="whatsinfeg">
 
                     {
@@ -83,6 +107,11 @@ class WhatsIn extends Component {
                                                     <h3>Type</h3>
                                                     <p>{feg_types.filter(type => type.feg_types_id === feg.feg_type_id)[0].feg_type_name}</p>
                                                 </div>
+                                            </div>
+                                            <div>
+                                                <form onSubmit={e => this.postFeg({feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: feg.img_src, amount: "1"}, e)}>
+                                                    <button  type="submit">+</button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
