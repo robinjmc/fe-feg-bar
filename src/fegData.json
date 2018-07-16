@@ -1,0 +1,369 @@
+{
+    "types": [
+        {
+            "_id": "0101",
+            "name": "Fruit",
+            "slug": "fruit"
+        },
+        {
+            "_id": "0102",
+            "name": "Vegetable",
+            "slug": "veg"
+        },
+        {
+            "_id":"0103",
+            "name":"Herb",
+            "slug":"herb"
+        }
+    ],
+    "origins": [
+        {
+            "_id": "0201",
+            "name": "U.K.",
+            "slug": "uk"
+        },
+        {
+            "_id": "0202",
+            "name": "Europe",
+            "slug": "eu"
+        }
+    ],
+    "seasons": [
+        {
+            "_id": "0301",
+            "name": "Winter",
+            "slug": "winter"
+        },
+        {
+            "_id": "0302",
+            "name": "Spring",
+            "slug": "spring"
+        },
+        {
+            "_id": "0303",
+            "name": "Summer",
+            "slug": "summer"
+        },
+        {
+            "_id": "0304",
+            "name": "Autumn",
+            "slug": "autumn"
+        }
+    ],
+    "months": [
+        {
+            "_id":"0401",
+            "name":"January",
+            "slug":"jan",
+            "season":"0301"
+        
+        },
+        {
+            "_id":"0402",
+            "name":"Febuary",
+            "slug":"feb",
+            "season":"0301"
+        },
+        {
+            "_id":"0403",
+            "name":"March",
+            "slug":"mar",
+            "season":"0302"
+        },
+        {
+            "_id":"0404",
+            "name":"April",
+            "slug":"apr",
+            "season":"0302"
+        },
+        {
+            "_id":"0405",
+            "name":"May",
+            "slug":"may",
+            "season":"0302"
+        },
+        {
+            "_id":"0406",
+            "name":"June",
+            "slug":"june",
+            "season":"0303"
+        },
+        {
+            "_id":"0407",
+            "name":"July",
+            "slug":"july",
+            "season":"0303"
+        },
+        {
+            "_id":"0408",
+            "name":"August",
+            "slug":"aug",
+            "season":"0303"
+        },
+        {
+            "_id":"0409",
+            "name":"September",
+            "slug":"sept",
+            "season":"0304"
+        },
+        {
+            "_id":"0410",
+            "name":"October",
+            "slug":"oct",
+            "season":"0304"
+        },
+        {
+            "_id":"0411",
+            "name":"November",
+            "slug":"nov",
+            "season":"0304"
+        },
+        {
+            "_id":"0412",
+            "name":"December",
+            "slug":"dec",
+            "season":"0301"
+        }
+    ],
+    "groceries": [
+        {
+            "_id": "0501",
+            "name": "Apple",
+            "slug": "apple",
+            "at_its_best": [
+                "0401", "0402","0409", "0410", "0411", "0412"
+            ],
+            "coming_in": [
+
+            ], 
+            "season": [
+                "0301", "0304"
+            ], 
+            "origin": "",
+            "type": "0101", 
+            "img_url": "https://upload.wikimedia.org/wikipedia/commons/3/3b/Apple-003.jpg"
+        },
+        {
+            "_id": "0502",
+            "name": "Asparagus",
+            "slug": "asparagus",
+            "at_its_best": [
+                "0406", "0407","0408", "0409", "0410"
+            ],
+            "coming_in": [
+                "0405"
+            ], 
+            "season": [
+                "0302", "0303", "0304"
+            ], 
+            "origin": "",
+            "type": "0102", 
+            "img_url": "https://www.publicdomainpictures.net/pictures/10000/velka/87-1229553305PJ3K.jpg"
+        },
+        {
+            "_id": "0503",
+            "name": "Broccoli",
+            "slug": "broccoli",
+            "at_its_best": [
+                "0408", "0409", "0410"
+            ],
+            "coming_in": [
+                "0407"
+            ], 
+            "season": [
+                "0303", "0304"
+            ], 
+            "origin": "",
+            "type": "0102", 
+            "img_url": "https://images.pexels.com/photos/161478/appetite-broccoli-brocoli-broccolli-calories-161478.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+        },
+        {
+            "_id": "0504",
+            "name": "Celeriac",
+            "slug": "celeriac",
+            "at_its_best": [
+                "0401", "0402", "0403", "0404", "0409", "0410", "0411", "0412"
+            ],
+            "coming_in": [
+                
+            ], 
+            "season": [
+                "0301", "0302", "0304"
+            ], 
+            "origin": "",
+            "type": "0102", 
+            "img_url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Sellerieknolle.jpg"
+        },
+        {
+            "_id": "0505",
+            "name": "Garlic",
+            "slug": "garlic",
+            "at_its_best": [
+                "0407","0408", "0409", "0410"
+            ],
+            "coming_in": [
+                "0406"
+            ], 
+            "season": [
+                "0303", "0304"
+            ], 
+            "origin": "",
+            "type": "0103", 
+            "img_url": "https://www.publicdomainpictures.net/pictures/10000/velka/1-1210579726rmaQ.jpg"
+        },
+        {
+            "_id": "0506",
+            "name": "Kale",
+            "slug": "kale",
+            "at_its_best": [
+                "0401","0402", "0410", "0411", "0412"
+            ],
+            "coming_in": [
+                "0409"
+            ], 
+            "season": [
+                "0301", "0304"
+            ], 
+            "origin": "",
+            "type": "0102", 
+            "img_url": "https://images.pexels.com/photos/327154/pexels-photo-327154.png?auto=compress&cs=tinysrgb&h=750&w=1260"
+        },
+        {
+            "_id": "0507",
+            "name": "Leek",
+            "slug": "leek",
+            "at_its_best": [
+                "0401","0402", "0403", "0409","0410", "0411", "0412"
+            ],
+            "coming_in": [
+                
+            ], 
+            "season": [
+                "0301", "0304"
+            ], 
+            "origin": "",
+            "type": "0102",
+            "img_url": "https://images.pexels.com/photos/543052/pexels-photo-543052.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+        },
+        {
+            "_id": "0508",
+            "name": "Mint",
+            "slug": "mint",
+            "at_its_best": [
+                "0405","0406", "0407","0408", "0409"
+            ],
+            "coming_in": [
+                
+            ], 
+            "season": [
+                "0302", "0303", "0304"
+            ], 
+            "origin": "",
+            "type": "0103",
+            "img_url": "https://upload.wikimedia.org/wikipedia/commons/b/b0/Mint-leaves-2007.jpg"
+        },
+        {
+            "_id": "0509",
+            "name": "New Potatoe",
+            "slug": "new_potatoe",
+            "at_its_best": [
+                "0404","0405","0406", "0407"
+            ],
+            "coming_in": [
+                
+            ], 
+            "season": [
+                "0302", "0303"
+            ], 
+            "origin": "",
+            "type": "0102",
+            "img_url": "https://pathsensors.com/wp-content/uploads/potato-04.jpg"
+        },
+        {
+            "_id": "0510",
+            "name": "Pea",
+            "slug": "pea",
+            "at_its_best": [
+                "0405","0406", "0407", "0408","0409", "0410", "0411"
+            ],
+            "coming_in": [
+                "0404"
+            ], 
+            "season": [
+                "0302", "0303", "0304"
+            ], 
+            "origin": "",
+            "type": "0102",
+            "img_url": "http://www.picserver.org/pictures/peas01-lg.jpg"
+        },
+        {
+            "_id": "0511",
+            "name": "Raspberry",
+            "slug": "raspberry",
+            "at_its_best": [
+                "0405","0406", "0407", "0408","0409"
+            ],
+            "coming_in": [
+                "0404"
+            ], 
+            "season": [
+                "0302", "0303", "0304"
+            ], 
+            "origin": "",
+            "type": "0101",
+            "img_url": "https://images.pexels.com/photos/62668/berry-raspberry-red-fruits-62668.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260"
+        },
+        {
+            "_id": "0512",
+            "name": "Spinach",
+            "slug": "spinach",
+            "at_its_best": [
+                "0404", "0405","0406", "0407", "0408","0409"
+            ],
+            "coming_in": [
+                "0403"
+            ], 
+            "season": [
+                "0302", "0303", "0304"
+            ], 
+            "origin": "",
+            "type": "0102",
+            "img_url": "https://www.publicdomainpictures.net/pictures/170000/velka/spinach-leaves-146177468033Z.jpg"
+        },
+        {
+            "_id": "0513",
+            "name": "Strawberry",
+            "slug": "strawberry",
+            "at_its_best": [
+                "0406", "0407", "0408","0409"
+            ],
+            "coming_in": [
+                "0405"
+            ], 
+            "season": [
+                "0302", "0303", "0304"
+            ], 
+            "origin": "",
+            "type": "0101",
+            "img_url": "http://www.picserver.org/pictures/strawberry01-md.jpg"
+        },
+        {
+            "_id": "0514",
+            "name": "Turnip",
+            "slug": "turnip",
+            "at_its_best": [
+                "0401", "0410", "0411","0412"
+            ],
+            "coming_in": [
+                "0405"
+            ], 
+            "season": [
+                "0301", "0304"
+            ], 
+            "origin": "",
+            "type": "0102",
+            "img_url": "https://pixfeeds.com/images/40/609031/1280-137592590-whole-purple-headed-turnip.jpg"
+        }
+        
+    ]
+}
