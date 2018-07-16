@@ -3,6 +3,7 @@ import { Route } from "react-router-dom";
 
 import Landing from './Landing'
 import WhatsIn from './WhatsIn'
+import FegList from './FegList'
 
 class FegBar extends Component {
     state={
@@ -14,6 +15,7 @@ class FegBar extends Component {
             <div>
                 <Route exact path="/" component={Landing} />
                 <Route exact path="/whats-in-guv" component={WhatsIn} />
+                <Route exact path="/my-feg-list" component={FegList} />
             </div>
         )
     }
