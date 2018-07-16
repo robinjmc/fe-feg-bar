@@ -59,7 +59,7 @@ class WhatsIn extends Component {
 
     render() {
         // const { months, groceries, seasons, types, month } = this.state;
-        let { month, at_best, coming_in, feg_types, loading } = this.state;
+        let { at_best, coming_in, feg_types, loading } = this.state;
         // let date = moment().format('MMMM')
         //let [month] = months.filter(month => month.name === date)
         console.log(this.state)
@@ -89,6 +89,7 @@ class WhatsIn extends Component {
                                     </div>
                                 )
                             })
+                            
                         // groceries.filter(feg => {
                         //     return feg.at_its_best.includes(month._id)
                         // }).map(feg => {
@@ -124,6 +125,32 @@ class WhatsIn extends Component {
                         //             </div>
                         //         </div>
                         //     )
+                    }
+                </div>
+                <h1>Coming Soon</h1>
+
+                <div id="whatsinfeg">
+
+                    {
+                        loading ? <p>Loading...</p> :
+                            coming_in.map(feg => {
+                                return (
+                                    <div style={{ padding: "10px" }} key={feg.coming_in_id}>
+                                        <div id="feg">
+                                            <h1>{feg.name}</h1>
+                                            <div >
+                                                <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
+                                            </div>
+                                            <div id="feg_info">
+                                                <div>
+                                                    <h3>Type</h3>
+                                                    <p>{feg_types.filter(type => type.feg_types_id === feg.feg_type_id)[0].feg_type_name}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            })
                     }
                 </div>
             </div>
