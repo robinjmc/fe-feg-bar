@@ -12,6 +12,7 @@ class FegList extends Component {
                 return res.json()
             })
             .then(({ feg_list }) => {
+                console.log(feg_list, 'hello')
                 this.setState({
                     feg_list: feg_list
                 })
@@ -30,6 +31,7 @@ class FegList extends Component {
 
     render() {
         const { feg_list, loading, feg_types } = this.state;
+        console.log(feg_list)
         return (
             <div>
                 <div>
