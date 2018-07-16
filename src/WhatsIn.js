@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-//import fegData from './fegData.json'
 import moment from 'moment';
-// console.log(fegData)
-console.log(moment().format('MMMM'))
 class WhatsIn extends Component {
 
     state = {
