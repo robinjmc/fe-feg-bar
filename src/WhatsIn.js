@@ -1,87 +1,129 @@
 import React, { Component } from 'react';
-import fegData from './fegData.json'
+//import fegData from './fegData.json'
 import moment from 'moment';
-console.log(fegData)
+// console.log(fegData)
 console.log(moment().format('MMMM'))
 class WhatsIn extends Component {
 
     state = {
-        groceries: fegData.groceries,
-        months: fegData.months,
-        origins: fegData.origins,
-        seasons: fegData.seasons,
-        types: fegData.types
+        loading: true
+        // groceries: fegData.groceries,
+        // months: fegData.months,
+        // origins: fegData.origins,
+        // seasons: fegData.seasons,
+        // types: fegData.types
+    }
+
+    componentDidMount() {
+        fetch('https://feg-bar.herokuapp.com/api/months')
+            .then(res => {
+                return res.json()
+            })
+            .then(({ months }) => {
+                let date = moment().format('MMMM')
+                let [month] = months.filter(month => month.month_name === date)
+                this.setState({
+                    month: month
+                })
+                return fetch(`https://feg-bar.herokuapp.com/api/months/${month.months_id}/at_best`)
+            })
+            .then(res => {
+                return res.json()
+            })
+            .then(({ feggies }) => {
+                this.setState({
+                    at_best: feggies
+                })
+                return fetch(`https://feg-bar.herokuapp.com/api/months/${this.state.month.months_id}/coming_in`)
+            })
+            .then(res => {
+                return res.json()
+            })
+            .then(({ feggies }) => {
+                this.setState({
+                    coming_in: feggies
+                })
+                return fetch('https://feg-bar.herokuapp.com/api/feg_types')
+            })
+            .then(res => {
+                return res.json()
+            })
+            .then(({ feg_types }) => {
+                console.log(feg_types)
+                this.setState({
+                    feg_types: feg_types,
+                    loading: false
+                })
+            })
     }
 
     render() {
-        const { months, groceries, seasons, types } = this.state;
-        let date = moment().format('MMMM')
-        let [month] = months.filter(month => month.name === date)
-        console.log(month)
+        // const { months, groceries, seasons, types, month } = this.state;
+        let { month, at_best, coming_in, feg_types, loading } = this.state;
+        // let date = moment().format('MMMM')
+        //let [month] = months.filter(month => month.name === date)
+        console.log(this.state)
         return (
             <div>
                 <h1>Groceries of the Week</h1>
 
                 <div id="whatsinfeg">
+
                     {
-                        groceries.filter(feg => {
-                            return feg.at_its_best.includes(month._id)
-                        }).map(feg => {
-                            let type = types.find(type => type._id === feg.type)
-                            return (
-                                <div style={{ padding: "10px" }} key={feg._id}>
-                                    <div id="feg">
-                                        <h1>{feg.name}</h1>
-                                        <div >
-                                            <img id="feg_img" alt={feg.slug} src={feg.img_url} />
-                                        </div>
-                                        <div id="feg_info">
-                                            <div>
-                                                <h3>Available in</h3>
-                                                <div >
-                                                    {
-                                                        feg.season.map(available => {
-                                                            let seas = seasons.find((s) => s._id === available)
-                                                            return (
-                                                                <div key={seas._id}>
-                                                                    <p>{seas.name}</p>
-                                                                </div>
-                                                            )
-                                                        })
-                                                    }
-                                                </div>
+                        loading ? <p>Loading...</p> :
+                            at_best.map(feg => {
+                                return (
+                                    <div style={{ padding: "10px" }} key={feg.at_best_id}>
+                                        <div id="feg">
+                                            <h1>{feg.name}</h1>
+                                            <div >
+                                                <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
                                             </div>
-                                            <div>
-                                                <h3>Type</h3>
-                                                <p>{type.name}</p>
+                                            <div id="feg_info">
+                                                <div>
+                                                    <h3>Type</h3>
+                                                    <p>{feg_types.filter(type => type.feg_types_id === feg.feg_type_id)[0].feg_type_name}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            )
-                        })
-                        //     groceries.filter(feg => {
-                        //         console.log(feg.at_its_best)
-                        //     if(feg.at_its_best.filter(best_month => best_month === month._id).length > 0) {
-                        //         console.log('feg')
-                        //         return (
-                        //         <div key={feg._id}>
-                        //         <h1>{feg.name}</h1>
-                        //         <h3>Available in</h3>
-                        //             <div>
-                        //                 {
-                        //                     feg.season.map(seas => {
-                        //                         return (
-                        //                             <p>{seasons.filter(season => season._id === seas)[0].name}</p>
-                        //                         )
-                        //                         }
-                        //                     )
-                        //                 }
+                                )
+                            })
+                        // groceries.filter(feg => {
+                        //     return feg.at_its_best.includes(month._id)
+                        // }).map(feg => {
+                        //     let type = types.find(type => type._id === feg.type)
+                        //     return (
+                        //         <div style={{ padding: "10px" }} key={feg._id}>
+                        //             <div id="feg">
+                        //                 <h1>{feg.name}</h1>
+                        //                 <div >
+                        //                     <img id="feg_img" alt={feg.slug} src={feg.img_url} />
+                        //                 </div>
+                        //                 <div id="feg_info">
+                        //                     <div>
+                        //                         <h3>Available in</h3>
+                        //                         <div >
+                        //                             {
+                        //                                 feg.season.map(available => {
+                        //                                     let seas = seasons.find((s) => s._id === available)
+                        //                                     return (
+                        //                                         <div key={seas._id}>
+                        //                                             <p>{seas.name}</p>
+                        //                                         </div>
+                        //                                     )
+                        //                                 })
+                        //                             }
+                        //                         </div>
+                        //                     </div>
+                        //                     <div>
+                        //                         <h3>Type</h3>
+                        //                         <p>{type.name}</p>
+                        //                     </div>
+                        //                 </div>
                         //             </div>
                         //         </div>
-                        //         )
-                        //     }
-                        // } 
+                        //     )
                     }
                 </div>
             </div>
