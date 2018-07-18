@@ -55,6 +55,7 @@ class FegList extends Component {
             <div>
                 <div>
                     <h1>Your Feg</h1>
+                    {feg_list.length > 0 ? <Link to='/whats-in-guv'><p>More Feg</p></Link> : null}
                 </div>
                 <div id="whatsinfeg">
                     {

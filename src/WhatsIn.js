@@ -5,7 +5,9 @@ class WhatsIn extends Component {
 
     state = {
         loading: true,
-        page: 0
+        page: 0,
+        amount_added: 0,
+        soon_display: false
     }
 
     shuffle = (array) => {
@@ -85,11 +87,18 @@ class WhatsIn extends Component {
             })
     }
     componentDidUpdate(prevProps, prevState){
-       if(prevState.page !== this.state.page){
+        let {page, feg_status, amount_added} = this.state
+       if(prevState.page !== page){
             this.setState({
                 navigate:''
             })
-       }
+        }
+        if(prevState.feg_status !== feg_status && feg_status === 'posted'){
+            this.setState({
+                amount_added: amount_added + 1,
+                feg_status: ''
+            })
+        }
     }
 
     postFeg = (feg, e) => {
@@ -108,7 +117,7 @@ class WhatsIn extends Component {
             .then(body => {
                 console.log(body)
                 this.setState({
-                    commentStatus: 'posted'
+                    feg_status: 'posted'
                 })
             })
     }
@@ -166,16 +175,23 @@ class WhatsIn extends Component {
         
     }
 
+    toggle_soon = (view, e) =>{
+        e.preventDefault();
+        if(view === 'show'){
+            this.setState({
+                soon_display: true
+            })
+        }
+        else if (view === 'hide'){
+            this.setState({
+                soon_display: false
+            })
+        }
+    }
+
     render() {
-        let { at_best, coming_in, feg_types, loading, page } = this.state;
-        // let best_length = at_best ? at_best.length : 0;
-        // let best = at_best ? at_best : [];
-        // let coming_length = coming_in ? coming_in.length : 0;
-        // // let best_order = this.order(best_length)
-        // // let chunked_n_shuffled = this.chunkArray(this.shuffle(best), 1)
-        // console.log(chunked_n_shuffled)
-        // // console.log(this.shuffle(best))
-        // console.log(this.chunkArray(best, 6)[0])
+        let { at_best, coming_in, feg_types, loading, page, amount_added, soon_display } = this.state;
+        console.log(soon_display)
         return (
             <div>
                 <h1>Groceries of the Week</h1>
@@ -197,22 +213,14 @@ class WhatsIn extends Component {
                             </div>
                             {
                                 loading ? <p>Loading...</p> :
-                                
-                                    // best_order.map(bestdex => {
-                                    //     let feg = at_best[bestdex]
                                     at_best[page].map(feg => {
-                                            // let feg = at_best[bestdex]
                                         let feg_name = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
-
                                         return (
-
                                             <div style={{ padding: "10px" }} key={feg.at_best_id}>
                                                 <div id="feg">
-                                                    
                                                     <div >
                                                         <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
                                                     </div> 
-                                                    
                                                     <h1>{feg_name}</h1>
                                                     <div id="feg_info">
                                                         <div>
@@ -221,6 +229,7 @@ class WhatsIn extends Component {
                                                         </div>
                                                     </div>
                                                    <div>
+                                                      {amount_added? <p>{amount_added}</p> : null}
                                                         <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: feg.img_src, amount: "1" }, e)}>
                                                             <button type="submit">+</button>
                                                         </form>
@@ -229,34 +238,6 @@ class WhatsIn extends Component {
                                             </div>
                                         )
                                     })
-                                //     })
-                                //         // at_best.map(feg => {
-                                //         //     let feg_name = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
-
-                                //         //     return (
-
-                                //         //         <div style={{ padding: "10px" }} key={feg.at_best_id}>
-                                //         //             <div id="feg">
-                                //         //                 <h1>{feg_name}</h1>
-                                //         //                 <div >
-                                //         //                     <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
-                                //         //                 </div>
-                                //         //                 <div id="feg_info">
-                                //         //                     <div>
-                                //         //                         <h3>Type</h3>
-                                //         //                         <p>{feg_types.filter(type => type.feg_types_id === feg.feg_type_id)[0].feg_type_name}</p>
-                                //         //                     </div>
-                                //         //                 </div>
-                                //         //                 <div>
-                                //         //                     <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: feg.img_src, amount: "1" }, e)}>
-                                //         //                         <button type="submit">+</button>
-                                //         //                     </form>
-                                //         //                 </div>
-                                //         //             </div>
-                                //         //         </div>
-                                //         //     )
-                                //         // })
-                                // }
                             }
                             <div>
                            <form onSubmit={e => this.more_feg(at_best, e)}>
@@ -267,10 +248,22 @@ class WhatsIn extends Component {
                             </div>
                         </div>
                         <h1>Coming Soon</h1>
-
+                        {soon_display ?
+                        <form onSubmit={e => this.toggle_soon('hide', e)}>
+                            <button>    
+                                hide
+                            </button>
+                            </form>
+                        :
+                        <form onSubmit={e => this.toggle_soon('show', e)}>
+                            <button>    
+                                show
+                            </button>
+                            </form>
+                        }
                         <div id="whatsinfeg">
 
-                            {
+                            {soon_display ?
                                 loading ? <p>Loading...</p> :
                                     coming_in.map(feg => {
                                         // console.log(feg)
@@ -292,6 +285,7 @@ class WhatsIn extends Component {
                                             </div>
                                         )
                                     })
+                                    : null
                             }
                         </div>
                     </div>
