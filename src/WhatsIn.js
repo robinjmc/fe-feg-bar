@@ -7,43 +7,46 @@ class WhatsIn extends Component {
         loading: true,
         page: 0,
         amount_added: 0,
-        soon_display: false
+        soon_display: false,
+        amount_display: 1,
+        at_best_shuffled: []
     }
 
     shuffle = (array) => {
         var currentIndex = array.length, temporaryValue, randomIndex;
-      
+
         // While there remain elements to shuffle...
         while (0 !== currentIndex) {
-      
-          // Pick a remaining element...
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex -= 1;
-      
-          // And swap it with the current element.
-          temporaryValue = array[currentIndex];
-          array[currentIndex] = array[randomIndex];
-          array[randomIndex] = temporaryValue;
+
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
         }
-      
+
         return array;
-      }
+    }
 
 
     chunkArray = (array, chunk) => {
 
         const newArray = [...array]
-    
+
         let results = [];
-        
+
         while (newArray.length) {
             results.push(newArray.splice(0, chunk));
         }
-        
+
         return results;
     }
 
     componentDidMount() {
+        
         fetch('https://feg-bar.herokuapp.com/api/months')
             .then(res => {
                 return res.json()
@@ -61,7 +64,7 @@ class WhatsIn extends Component {
             })
             .then(({ feggies }) => {
                 this.setState({
-                    at_best: this.chunkArray(this.shuffle(feggies), 1) 
+                    at_best_shuffled: this.shuffle(feggies)
                 })
                 return fetch(`https://feg-bar.herokuapp.com/api/months/${this.state.month.months_id}/coming_in`)
             })
@@ -70,7 +73,8 @@ class WhatsIn extends Component {
             })
             .then(({ feggies }) => {
                 this.setState({
-                    coming_in: feggies
+                    coming_in: feggies,
+                    at_best: this.chunkArray(this.state.at_best_shuffled, this.state.amount_display)
                 })
                 return fetch('https://feg-bar.herokuapp.com/api/feg_types')
             })
@@ -86,17 +90,23 @@ class WhatsIn extends Component {
                 })
             })
     }
-    componentDidUpdate(prevProps, prevState){
-        let {page, feg_status, amount_added} = this.state
-       if(prevState.page !== page){
+    componentDidUpdate(prevProps, prevState) {
+        let { page, feg_status, amount_added, amount_display, at_best_shuffled } = this.state
+        if (prevState.page !== page) {
             this.setState({
-                navigate:''
+                navigate: ''
             })
         }
-        if(prevState.feg_status !== feg_status && feg_status === 'posted'){
+        if (prevState.feg_status !== feg_status && feg_status === 'posted') {
             this.setState({
                 amount_added: amount_added + 1,
                 feg_status: ''
+            })
+        }
+        if(prevState.amount_display !== amount_display){
+            this.setState({
+                amount_display: amount_display, 
+                at_best: this.chunkArray(at_best_shuffled, this.state.amount_display)
             })
         }
     }
@@ -131,7 +141,7 @@ class WhatsIn extends Component {
             const random = getRandomInt(set_length)
             if (!feggiedex.includes(random) || feggiedex.indexOf(random) === -1) {
                 console.log(feggiedex.includes(random), random, 'doesnt')
-            feggiedex.push(getRandomInt(set_length))
+                feggiedex.push(getRandomInt(set_length))
             } else {
                 console.log(random)
             }
@@ -139,15 +149,15 @@ class WhatsIn extends Component {
         return feggiedex;
     }
 
-    
+
     more_feg = (arr, e) => {
         console.log('more')
-        let {page} = this.state
-    e.preventDefault();
-    if(page < arr.length - 1){
+        let { page } = this.state
+        e.preventDefault();
+        if (page < arr.length - 1) {
             this.setState({
                 page: page + 1,
-                navigate: 'more' 
+                navigate: 'more'
             })
         } else {
             this.setState({
@@ -155,61 +165,118 @@ class WhatsIn extends Component {
                 navigate: 'bottom'
             })
         }
-        
+
     }
-    
+
     less_feg = (arr, e) => {
-        const {page} = this.state
+        const { page } = this.state
         e.preventDefault();
-        if(page > 0){
+        if (page > 0) {
             this.setState({
                 page: page - 1,
-                navigate: 'less' 
+                navigate: 'less'
             })
-        }else{
+        } else {
             this.setState({
                 page: arr.length - 1,
                 navigate: 'top'
             })
         }
-        
+
     }
 
-    toggle_soon = (view, e) =>{
+    toggle_soon = (view, e) => {
         e.preventDefault();
-        if(view === 'show'){
+        if (view === 'show') {
             this.setState({
                 soon_display: true
             })
         }
-        else if (view === 'hide'){
+        else if (view === 'hide') {
             this.setState({
                 soon_display: false
             })
         }
     }
 
+    handleOptionChange = (changeEvent) => {
+        console.log(typeof changeEvent.target.value )
+        this.setState({ amount_display: +changeEvent.target.value });
+    }
+
     render() {
-        let { at_best, coming_in, feg_types, loading, page, amount_added, soon_display } = this.state;
-        console.log(soon_display)
+        let { at_best, coming_in, feg_types, loading, page, amount_added, soon_display, amount_display } = this.state;
+        console.log(amount_display)
         return (
             <div>
                 <h1>Groceries of the Week</h1>
                 <Link to='/my-feg-list'>
                     <p>Basket</p>
                 </Link>
+                <div>
+                    <form>
+                        <div className="radio">
+                            <label>
+                                <input type="radio" value={1}
+                                    checked={amount_display === 1}
+                                    onChange={this.handleOptionChange} />
+                                1
+      </label>
+                        </div>
+                        <div className="radio">
+                            <label>
+                                <input type="radio" value={3}
+                                    checked={amount_display === 3}
+                                    onChange={this.handleOptionChange} />
+                                3
+      </label>
+                        </div>
+                        <div className="radio">
+                            <label>
+                                <input type="radio" value={6}
+                                    checked={amount_display === 6}
+                                    onChange={this.handleOptionChange} />
+                                6
+      </label>
+                        </div>
+                    </form>
+                    {/* <form >
+                        <fieldset onChange={this.handleChange} id='displayFeg' style={{
+                            display: 'flex',  justifyContent: 'space-around', margin: '1px solid black'
+
+                        }}>
+                            <legend>display</legend>
+
+                            <div>
+                                <input value={1}type="radio" id="one" name="display" checked={true} />
+                                <label htmlFor="one">1</label>
+                            </div>
+
+                            <div>
+                                <input value={3}type="radio" id="three" name="display" />
+                                <label htmlFor="three">3</label>
+                            </div>
+
+                            <div>
+                                <input  value={6}type="radio" id="six" name="display" />
+                                <label htmlFor="six">6</label>
+                            </div>
+
+                        </fieldset>
+                    </form> */}
+                </div>
                 <div id="page">
                     <div id='fegCol'>
 
                     </div>
                     <div>
                         <div id="whatsinfeg">
-                        <div>
-                        <form onSubmit={e => this.less_feg(at_best, e)}>
-                        <button type="submit">
-                            left
+                            <div>
+                                <form onSubmit={e => this.less_feg(at_best, e)}>
+                                    <button type="submit">
+                                        left
                             </button>
-                            </form>
+                                </form>
                             </div>
                             {
                                 loading ? <p>Loading...</p> :
@@ -220,16 +287,16 @@ class WhatsIn extends Component {
                                                 <div id="feg">
                                                     <div >
                                                         <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
-                                                    </div> 
+                                                    </div>
                                                     <h1>{feg_name}</h1>
                                                     <div id="feg_info">
                                                         <div>
-                                                             {/* <h3>Type</h3> */}
+                                                            {/* <h3>Type</h3> */}
                                                             <p>{feg_types.filter(type => type.feg_types_id === feg.feg_type_id)[0].feg_type_name}</p>
                                                         </div>
                                                     </div>
-                                                   <div>
-                                                      {amount_added? <p>{amount_added}</p> : null}
+                                                    <div>
+                                                        {amount_added ? <p>{amount_added}</p> : null}
                                                         <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: feg.img_src, amount: "1" }, e)}>
                                                             <button type="submit">+</button>
                                                         </form>
@@ -240,24 +307,24 @@ class WhatsIn extends Component {
                                     })
                             }
                             <div>
-                           <form onSubmit={e => this.more_feg(at_best, e)}>
-                            <button>    
-                                right
+                                <form onSubmit={e => this.more_feg(at_best, e)}>
+                                    <button>
+                                        right
                             </button>
-                            </form>
+                                </form>
                             </div>
                         </div>
                         <h1>Coming Soon</h1>
                         {soon_display ?
-                        <form onSubmit={e => this.toggle_soon('hide', e)}>
-                            <button>    
-                                hide
+                            <form onSubmit={e => this.toggle_soon('hide', e)}>
+                                <button>
+                                    hide
                             </button>
                             </form>
-                        :
-                        <form onSubmit={e => this.toggle_soon('show', e)}>
-                            <button>    
-                                show
+                            :
+                            <form onSubmit={e => this.toggle_soon('show', e)}>
+                                <button>
+                                    show
                             </button>
                             </form>
                         }
@@ -285,7 +352,7 @@ class WhatsIn extends Component {
                                             </div>
                                         )
                                     })
-                                    : null
+                                : null
                             }
                         </div>
                     </div>
