@@ -94,7 +94,7 @@ class WhatsIn extends Component {
                         loading ? <p>Loading...</p> :
                             at_best.map(feg => {
                                 let feg_name = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
-                            
+                                
                                 return (
                                     <div style={{ padding: "10px" }} key={feg.at_best_id}>
                                         <div id="feg">
