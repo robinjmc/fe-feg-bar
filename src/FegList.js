@@ -48,71 +48,6 @@ class FegList extends Component {
         }
     }
 
-    // moreFeg = (feg, e) => {
-    //     console.log(JSON.stringify(feg))
-    //     e.preventDefault();
-    //     fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}?amount=up`, {
-    //       method: 'PUT',
-    //       body: JSON.stringify( feg ),
-    //       headers: {
-    //         'content-type': 'application/json'
-    //       }
-    //     })
-    //       .then(res => {
-    //         return res.json()
-    //       })
-    //       .then(body => {
-    //         console.log(body, 'body')
-    //         this.setState({
-    //           fegStatus: 'increment'
-    //         })
-    //       })
-    //   }
-
-    //   lessFeg = (feg, e) => {
-    //       console.log(feg)
-    //     console.log(JSON.stringify(feg))
-    //     e.preventDefault();
-    //     fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}?amount=down`, {
-    //       method: 'PUT',
-    //       body: JSON.stringify( feg ),
-    //       headers: {
-    //         'content-type': 'application/json'
-    //       }
-    //     })
-    //       .then(res => {
-    //         return res.json()
-    //       })
-    //       .then(body => {
-    //         console.log(body)
-    //         this.setState({
-    //           fegStatus: 'decrement'
-    //         })
-    //       })
-    //   }
-
-    //   deleteFeg = (feg, e) => {
-    //       console.log('delete feg')
-    //     console.log(JSON.stringify(feg))
-    //     e.preventDefault();
-    //     fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}`, {
-    //       method: 'DELETE',
-    //       body: JSON.stringify( feg ),
-    //       headers: {
-    //         'content-type': 'application/json'
-    //       }
-    //     })
-    //       .then(res => {
-    //         return res.json()
-    //       })
-    //       .then(body => {
-    //         console.log(body)
-    //         this.setState({
-    //           fegStatus: 'removed'
-    //         })
-    //       })
-    //   }
-
     render() {
         const { feg_list, loading } = this.state;
         console.log(feg_list)
@@ -139,11 +74,6 @@ class FegList extends Component {
                                                         <div >
                                                             <FegAmount feg_list_id={`${feg.feg_list_id}`} feggie_id={`${feg.feggie_id}`} feg_name={feg.feg_name} img_src={feg.img_src} feg_amount={feg.amount} fegRemoved={this.fegRemoved}/>
                                                         </div>
-                                                        {/* <div id="feg_info">
-                                                            <form onSubmit={e => this.moreFeg({feg_list_id:`${feg.feg_list_id}`, feggie_id: `${feg.feggie_id}`, feg_name: feg.feg_name, img_src: feg.img_src}, e)}><button type="submit">+</button></form>
-                                                           <h1>{feg.amount}</h1>
-                                                           <form onSubmit={feg.amount > 0 ? minus : remove}><button type="submit">-</button></form>
-                                                        </div> */}
                                                     </div>
                                                 </div>
                                             )

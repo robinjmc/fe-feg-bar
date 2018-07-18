@@ -32,6 +32,7 @@
   display: flex;
   justify-content: space-around;
   flex-flow: row wrap;
+  border: #222 solid 2px;
 }
 
 #feg {
@@ -41,8 +42,9 @@
   justify-content: space-between;
   padding:2em;
   align-items: center;
-  width: 15em;
+  width: 25em;
   position: relative;
+  border: #222 solid 2px;
 }
 
 #feg_img {
@@ -59,4 +61,25 @@
   justify-content: space-between;
   width: 15em;
   height: 15em;
+}
+
+#page{
+  background: rgb(212, 213, 255);
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  border: #222 solid 2px;
+}
+
+#fegCol {
+    width: 100px;
+}
+
+@media screen and (min-width: 1400px) {
+  #fegCol {
+    width: 20em;
+    padding: 6em;
+  }
 }
