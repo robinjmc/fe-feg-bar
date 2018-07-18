@@ -84,6 +84,57 @@
   }
 }
 
+#whatsinfegcontainer {
+  background: rgba(252, 245, 238, 0.74);
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  flex-flow: row;
+  padding: 0.5em;
+  border: rgb(165, 165, 165) solid 2px;
+}
+
+@media screen and (max-width: 500px) {
+  #whatsinfegcontainer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center
+  }
+  #fegCol {
+    width: 10em;
+    padding: 0em;
+  }
+  #feg_img {
+    width: 10em;
+    height: 10em;
+    object-fit: cover;
+    border-radius: 0%;
+  }
+  #whatsinfeg {
+    width: 95%
+  }
+  #smallerBox, #feg {
+    width: 95%
+  }
+  #smallerBox {
+    display: flex;
+    justify-content: center;
+    align-items: center
+  }
+}
+
+#more_feg {
+  background:  rgb(255, 255, 255);
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  padding:1em;
+  align-items: center;
+  width: 5em;
+  position: relative;
+  border: rgba(0, 0, 0, 0.186) solid 2px;
+}
+
 /* 
 input {
   margin: .4rem;

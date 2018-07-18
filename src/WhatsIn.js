@@ -46,7 +46,7 @@ class WhatsIn extends Component {
     }
 
     componentDidMount() {
-        
+
         fetch('https://feg-bar.herokuapp.com/api/months')
             .then(res => {
                 return res.json()
@@ -103,9 +103,9 @@ class WhatsIn extends Component {
                 feg_status: ''
             })
         }
-        if(prevState.amount_display !== amount_display){
+        if (prevState.amount_display !== amount_display) {
             this.setState({
-                amount_display: amount_display, 
+                amount_display: amount_display,
                 at_best: this.chunkArray(at_best_shuffled, this.state.amount_display)
             })
         }
@@ -200,7 +200,7 @@ class WhatsIn extends Component {
     }
 
     handleOptionChange = (changeEvent) => {
-        console.log(typeof changeEvent.target.value )
+        console.log(typeof changeEvent.target.value)
         this.setState({ amount_display: +changeEvent.target.value });
     }
 
@@ -217,96 +217,70 @@ class WhatsIn extends Component {
                     <form>
                         <div className="radio">
                             <label>
-                                <input type="radio" value={1}
-                                    checked={amount_display === 1}
-                                    onChange={this.handleOptionChange} />
+                                <input type="radio" value={1} checked={amount_display === 1} onChange={this.handleOptionChange} />
                                 1
-      </label>
+                            </label>
                         </div>
                         <div className="radio">
                             <label>
-                                <input type="radio" value={3}
-                                    checked={amount_display === 3}
-                                    onChange={this.handleOptionChange} />
+                                <input type="radio" value={3} checked={amount_display === 3} onChange={this.handleOptionChange} />
                                 3
-      </label>
+                            </label>
                         </div>
                         <div className="radio">
                             <label>
-                                <input type="radio" value={6}
-                                    checked={amount_display === 6}
-                                    onChange={this.handleOptionChange} />
+                                <input type="radio" value={6} checked={amount_display === 6} onChange={this.handleOptionChange} />
                                 6
-      </label>
+                            </label>
                         </div>
                     </form>
-                    {/* <form >
-                        <fieldset onChange={this.handleChange} id='displayFeg' style={{
-                            display: 'flex',  justifyContent: 'space-around', margin: '1px solid black'
-
-                        }}>
-                            <legend>display</legend>
-
-                            <div>
-                                <input value={1}type="radio" id="one" name="display" checked={true} />
-                                <label htmlFor="one">1</label>
-                            </div>
-
-                            <div>
-                                <input value={3}type="radio" id="three" name="display" />
-                                <label htmlFor="three">3</label>
-                            </div>
-
-                            <div>
-                                <input  value={6}type="radio" id="six" name="display" />
-                                <label htmlFor="six">6</label>
-                            </div>
-
-                        </fieldset>
-                    </form> */}
                 </div>
                 <div id="page">
                     <div id='fegCol'>
 
                     </div>
                     <div>
-                        <div id="whatsinfeg">
-                            <div>
+                        <div id="whatsinfegcontainer">
+                            <div id="more_feg">
                                 <form onSubmit={e => this.less_feg(at_best, e)}>
                                     <button type="submit">
                                         left
                             </button>
                                 </form>
                             </div>
-                            {
-                                loading ? <p>Loading...</p> :
-                                    at_best[page].map(feg => {
-                                        let feg_name = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
-                                        return (
-                                            <div style={{ padding: "10px" }} key={feg.at_best_id}>
-                                                <div id="feg">
-                                                    <div >
-                                                        <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
-                                                    </div>
-                                                    <h1>{feg_name}</h1>
-                                                    <div id="feg_info">
+                            <div id="whatsinfeg">
+
+                                {
+                                    loading ? <p>Loading...</p> :
+                                        at_best[page].map(feg => {
+                                            let feg_name = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
+                                            return (
+                                                <div id='smallerBox'style={{ padding: "10px"}} key={feg.at_best_id}>
+                                                    <div id="feg">
+                                                        <div >
+                                                            <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
+                                                        </div>
+                                                        <h1>{feg_name}</h1>
+                                                        <div id="feg_info">
+                                                            <div>
+                                                                {/* <h3>Type</h3> */}
+                                                                <p>{feg_types.filter(type => type.feg_types_id === feg.feg_type_id)[0].feg_type_name}</p>
+                                                            </div>
+                                                        </div>
                                                         <div>
-                                                            {/* <h3>Type</h3> */}
-                                                            <p>{feg_types.filter(type => type.feg_types_id === feg.feg_type_id)[0].feg_type_name}</p>
+                                                            {amount_added ? <p>{amount_added}</p> : null}
+                                                            <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: feg.img_src, amount: "1" }, e)}>
+                                                                <button type="submit">+</button>
+                                                            </form>
                                                         </div>
                                                     </div>
-                                                    <div>
-                                                        {amount_added ? <p>{amount_added}</p> : null}
-                                                        <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: feg.img_src, amount: "1" }, e)}>
-                                                            <button type="submit">+</button>
-                                                        </form>
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    })
-                            }
-                            <div>
+                                            )
+                                        })
+                                }
+
+                            </div>
+                            <div id="more_feg">
                                 <form onSubmit={e => this.more_feg(at_best, e)}>
                                     <button>
                                         right
