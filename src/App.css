@@ -28,49 +28,49 @@
 }
 
 #whatsinfeg {
-  background: rgb(172, 255, 172);
+  background: rgba(252, 245, 238, 0.74);
   display: flex;
   justify-content: space-around;
   flex-flow: row wrap;
-  border: #222 solid 2px;
+  /* border: rgb(165, 165, 165) solid 2px; */
 }
 
 #feg {
-  background: rgb(255, 212, 212);
+  background:  rgb(255, 255, 255);
   display: flex;
   flex-flow: column wrap;
   justify-content: space-between;
-  padding:2em;
+  padding:1em;
   align-items: center;
   width: 25em;
   position: relative;
-  border: #222 solid 2px;
+  border: rgba(0, 0, 0, 0.186) solid 2px;
 }
 
 #feg_img {
-  width: 15em;
-  height: 15em;
+  width: 25em;
+  height: 25em;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 0%;
 }
 
 #feg_info {
-  padding-top: 1.2em;
+  padding-top: 1em;
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-  width: 15em;
-  height: 15em;
+  width: 10em;
+  height: 5em;
 }
 
 #page{
-  background: rgb(212, 213, 255);
+  background:  rgba(252, 245, 238, 0.74);
   display: flex;
   flex-flow: row;
   justify-content: space-around;
   align-items: center;
   position: relative;
-  border: #222 solid 2px;
+  /* border: #222 solid 2px; */
 }
 
 #fegCol {
