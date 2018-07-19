@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-
+import {capitalize} from 'lodash';
 class Nutrition extends Component {
     state = {
-        loading: true
+        loading: true,
+        nutrients: {}
     }
     componentDidMount() {
         let { amount, feg } = this.props
@@ -27,8 +28,7 @@ class Nutrition extends Component {
             .then(({ foods }) => {
                 let [food] = foods;
                 let { nf_calories, nf_cholesterol, nf_dietary_fiber, nf_potassium, nf_protein, nf_saturated_fat, nf_sodium, nf_sugars, nf_total_carbohydrate, nf_total_fat, serving_weight_grams } = food;
-                console.log(feg)
-                this.setState({
+                const nutrients = {
                     calories: nf_calories,
                     cholesterol: nf_cholesterol,
                     dietary_fiber: nf_dietary_fiber,
@@ -39,18 +39,23 @@ class Nutrition extends Component {
                     sugars: nf_sugars,
                     total_carbohydrate: nf_total_carbohydrate,
                     total_fat: nf_total_fat,
-                    weight_grams: serving_weight_grams,
+                    weight_grams: serving_weight_grams
+                    
+                }
+                console.log(feg)
+                this.setState({
+                    nutrients,
+                    loading: false,
                     feg_amount: amount,
-                    feg_name: name_format,
-                    loading: false
+                    feg_name: name_format
                 })
+                feg.calc_total(nutrients)
             })
 
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log(typeof this.state.feg_name, 'update')
-        let { amount } = this.props;
+        let { amount, feg } = this.props;
         let { feg_name } = this.state;
         if (prevProps.amount !== amount && this.state.feg_name) {
             fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
@@ -73,7 +78,7 @@ class Nutrition extends Component {
                 .then(({ foods }) => {
                     let [food] = foods;
                     let { nf_calories, nf_cholesterol, nf_dietary_fiber, nf_potassium, nf_protein, nf_saturated_fat, nf_sodium, nf_sugars, nf_total_carbohydrate, nf_total_fat, serving_weight_grams } = food;
-                    this.setState({
+                    const nutrients = {
                         calories: nf_calories,
                         cholesterol: nf_cholesterol,
                         dietary_fiber: nf_dietary_fiber,
@@ -84,48 +89,72 @@ class Nutrition extends Component {
                         sugars: nf_sugars,
                         total_carbohydrate: nf_total_carbohydrate,
                         total_fat: nf_total_fat,
-                        weight_grams: serving_weight_grams,
-                        feg_amount: amount
-                    })
+                        weight_grams: serving_weight_grams
+                        
+                    }
+                    this.setState({nutrients})
+                    feg.calc_total(nutrients)
                 })
         }
     }
 
 
-    nutrition_table = (feg_info) => {
-        let table = [];
-        for (let i = 0; i < 1; i++) {
-            let children = []
-            for (let nutrition in feg_info) {
-                if (nutrition !== 'loading' || nutrition !== 'feg_amount' || nutrition !== 'feg_name') {
-                    children.push(<td>{`${nutrition}`}: {`${feg_info[nutrition]}`}</td>)
-                }
-            }
-            table.push(<tr>{children}</tr>)
-        }
-        return table
-    }
+    // nutrition_table = () => {
+    //     let { calories, cholesterol, dietary_fiber, potassium, protein, saturated_fat, sodium, sugars, total_carbohydrate, total_fat, weight_grams } = this.state;
+    //     let table = [];
+    //     for (let i = 0; i < 1; i++) {
+    //         let children = []
+    //         for (let nutrition in feg_info) {
+    //             if (nutrition !== 'loading' || nutrition !== 'feg_amount' || nutrition !== 'feg_name') {
+    //                 children.push(<td>{`${nutrition}`}: {`${feg_info[nutrition]}`}</td>)
+    //             }
+    //         }
+    //         table.push(<tr>{children}</tr>)
+    //     }
+    //     return table
+    // }
 
     render() {
         let { calories, cholesterol, dietary_fiber, potassium, protein, saturated_fat, sodium, sugars, total_carbohydrate, total_fat, weight_grams, loading } = this.state;
+        let {calc_total, feg_name} = this.props.feg
         // let info = this.state
+        console.log(this.props, calc_total)
         return (
             <div>
                 Nutrition
                 {
                     loading ? <h1>Loading</h1> :
                         <div>
-                            <p>Calories: {calories}</p>
-                            <p>Cholesterol: {cholesterol}</p>
-                            <p>Dietary Fiber: {dietary_fiber}</p>
-                            <p>Potassium: {potassium}</p>
-                            <p>Protein: {protein}</p>
-                            <p>Saturated Fat: {saturated_fat}</p>
-                            <p>Sodium: {sodium}</p>
-                            <p>Sugars: {sugars}</p>
-                            <p>Total Carbohydrate: {total_carbohydrate}</p>
-                            <p>Total Fat: {total_fat}</p>
-                            <p>Weight (g): {weight_grams}</p>
+                            <div>
+                                {
+                                    Object.entries(this.state.nutrients).map(([key, value]) => `${key.split("_").map(words => capitalize(words)).join(" ")}: ${value}`).map((data, i) => {
+                                        console.log(data)
+                                    // let inputs = data.split(' ')
+                                    // let name_format = /_/g.test(inputs[0]) ? inputs[0].split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : inputs[0][0].toUpperCase() + inputs[0].slice(1)
+                                   
+                                    
+                                        return (
+                                            <div key={i}>
+                                            <p>{data.replace('_', ' ')}</p>
+                                            </div>
+                                        )
+                                    })
+
+                                }
+                            </div>
+                            {/* <div>
+                                <p>Calories: {calories}</p>
+                                <p>Cholesterol: {cholesterol}</p>
+                                <p>Dietary Fiber: {dietary_fiber}</p>
+                                <p>Potassium: {potassium}</p>
+                                <p>Protein: {protein}</p>
+                                <p>Saturated Fat: {saturated_fat}</p>
+                                <p>Sodium: {sodium}</p>
+                                <p>Sugars: {sugars}</p>
+                                <p>Total Carbohydrate: {total_carbohydrate}</p>
+                                <p>Total Fat: {total_fat}</p>
+                                <p>Weight (g): {weight_grams}</p>
+                            </div> */}
                         </div>
                 }
             </div>

@@ -160,6 +160,11 @@
   border: rgba(0, 0, 0, 0.186) solid 2px;
 }
 
+#total_nutrition {
+  display: flex;
+  flex-flow: row;
+}
+
 /* 
 input {
   margin: .4rem;

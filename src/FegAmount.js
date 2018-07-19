@@ -15,26 +15,26 @@ class FegAmount extends Component {
     })
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    let { feg_list_id } = this.props
-    let { fegStatus } = this.state
-//dont think I need this
-    if (prevProps !== this.props && fegStatus.length > 0 && fegStatus !== 'removed') {
-      console.log('alright')
-      fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg_list_id}`)
-        .then(res => {
-          console.log('gello')
-          return res.json()
-        })
-        .then(body => {
-          console.log('whats up')
-          this.setState({
-            fegStatus: '',
-            body: body
-          })
-        })
-    }
-  }
+//   componentDidUpdate(prevProps, prevState) {
+//     let { feg_list_id } = this.props
+//     let { fegStatus } = this.state
+// //dont think I need this
+//     if (prevProps !== this.props && fegStatus.length > 0 && fegStatus !== 'removed') {
+//       console.log('alright')
+//       fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg_list_id}`)
+//         .then(res => {
+//           console.log('gello')
+//           return res.json()
+//         })
+//         .then(body => {
+//           console.log('whats up')
+//           this.setState({
+//             fegStatus: '',
+//             body: body
+//           })
+//         })
+//     }
+//   }
 
   moreFeg = (feg, e) => {
     e.preventDefault();
