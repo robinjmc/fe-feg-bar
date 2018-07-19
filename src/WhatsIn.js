@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import { Link } from "react-router-dom";
-class WhatsIn extends Component {
 
+class WhatsIn extends Component {
+   
     state = {
         loading: true,
         page: 0,
@@ -11,7 +12,6 @@ class WhatsIn extends Component {
         amount_display: 1,
         at_best_shuffled: []
     }
-
     shuffle = (array) => {
         var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -39,6 +39,7 @@ class WhatsIn extends Component {
         let results = [];
 
         while (newArray.length) {
+            console.log('chunk')
             results.push(newArray.splice(0, chunk));
         }
 
@@ -46,7 +47,6 @@ class WhatsIn extends Component {
     }
 
     componentDidMount() {
-
         fetch('https://feg-bar.herokuapp.com/api/months')
             .then(res => {
                 return res.json()
@@ -236,16 +236,14 @@ class WhatsIn extends Component {
                     </form>
                 </div>
                 <div id="page">
-                    <div id='fegCol'>
-
-                    </div>
-                    <div>
+                    <div id='fegCol'></div>
+                    <div id='whatsin'>
                         <div id="whatsinfegcontainer">
                             <div id="more_feg">
                                 <form onSubmit={e => this.less_feg(at_best, e)}>
                                     <button type="submit">
-                                        left
-                            </button>
+                                        -
+                                    </button>
                                 </form>
                             </div>
                             <div id="whatsinfeg">
@@ -255,7 +253,7 @@ class WhatsIn extends Component {
                                         at_best[page].map(feg => {
                                             let feg_name = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
                                             return (
-                                                <div id='smallerBox'style={{ padding: "10px"}} key={feg.at_best_id}>
+                                                <div id='smallerBox' style={{ padding: "0px"}} key={feg.at_best_id}>
                                                     <div id="feg">
                                                         <div >
                                                             <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
@@ -283,8 +281,8 @@ class WhatsIn extends Component {
                             <div id="more_feg">
                                 <form onSubmit={e => this.more_feg(at_best, e)}>
                                     <button>
-                                        right
-                            </button>
+                                        -
+                                    </button>
                                 </form>
                             </div>
                         </div>
@@ -303,7 +301,6 @@ class WhatsIn extends Component {
                             </form>
                         }
                         <div id="whatsinfeg">
-
                             {soon_display ?
                                 loading ? <p>Loading...</p> :
                                     coming_in.map(feg => {
@@ -330,9 +327,7 @@ class WhatsIn extends Component {
                             }
                         </div>
                     </div>
-                    <div id='fegCol'>
-
-                    </div>
+                    <div id='fegCol'></div>
                 </div>
             </div>
         )

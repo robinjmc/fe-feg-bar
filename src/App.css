@@ -27,24 +27,32 @@
   to { transform: rotate(360deg); }
 }
 
+#whatsin {
+  display: flex;
+  flex-flow: column;
+  /* background-color: #222; */
+  width:100%;
+  justify-content: space-around;
+}
+
 #whatsinfeg {
   background: rgba(252, 245, 238, 0.74);
   display: flex;
-  justify-content: space-around;
-  flex-flow: row wrap;
+  /* justify-content: space-around; */
+  flex-flow: column ;
   /* border: rgb(165, 165, 165) solid 2px; */
 }
 
 #feg {
   background:  rgb(255, 255, 255);
   display: flex;
-  flex-flow: column wrap;
+  flex-flow: column;
   justify-content: space-between;
   padding:1em;
   align-items: center;
   width: 25em;
   position: relative;
-  border: rgba(0, 0, 0, 0.186) solid 2px;
+  /* border: rgba(0, 0, 0, 0.186) solid 2px; */
 }
 
 #feg_img {
@@ -57,8 +65,9 @@
 #feg_info {
   padding-top: 1em;
   display: flex;
-  flex-flow: column;
+  flex-flow: row;
   justify-content: space-between;
+  align-items: center;
   width: 10em;
   height: 5em;
 }
@@ -74,13 +83,18 @@
 }
 
 #fegCol {
-    width: 100px;
+  display: flex;
+  flex-flow: column;
+    width: 100%;
+    padding: 0.2em;
+    /* background: black; */
 }
 
 @media screen and (min-width: 1400px) {
   #fegCol {
     width: 10em;
     padding: 6em;
+    /* background: yellow; */
   }
 }
 
@@ -90,8 +104,8 @@
   width: 100%;
   justify-content: space-around;
   flex-flow: row;
-  padding: 0.5em;
-  border: rgb(165, 165, 165) solid 2px;
+  padding: 0em;
+  /* border: rgb(165, 165, 165) solid 2px; */
 }
 
 @media screen and (max-width: 500px) {
@@ -101,8 +115,11 @@
     align-items: center
   }
   #fegCol {
-    width: 10em;
+    display: flex;
+    flex-flow: column;
+    width: 0em;
     padding: 0em;
+    /* background: green; */
   }
   #feg_img {
     width: 10em;
@@ -111,26 +128,34 @@
     border-radius: 0%;
   }
   #whatsinfeg {
-    width: 95%
+    width: 50%;
+    /* background: yellow; */
   }
   #smallerBox, #feg {
-    width: 95%
+    width: 95%;
   }
   #smallerBox {
     display: flex;
     justify-content: center;
-    align-items: center
+    align-items: center;
+  }
+  #whatsin {
+    width: 100%;
+  }
+  #feg{
+    background:white;
+    width:80%
   }
 }
 
 #more_feg {
   background:  rgb(255, 255, 255);
   display: flex;
-  flex-flow: column wrap;
-  justify-content: space-between;
-  padding:1em;
+  flex-flow: column;
+  justify-content: space-around;
+  padding:0.5em;
   align-items: center;
-  width: 5em;
+  width: 2em;
   position: relative;
   border: rgba(0, 0, 0, 0.186) solid 2px;
 }
