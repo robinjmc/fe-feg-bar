@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { Link } from "react-router-dom";
 
+import FegData from './FegData';
+
 class WhatsIn extends Component {
    
     state = {
@@ -10,7 +12,8 @@ class WhatsIn extends Component {
         amount_added: 0,
         soon_display: false,
         amount_display: 1,
-        at_best_shuffled: []
+        at_best_shuffled: [],
+        feg_data: []
     }
     shuffle = (array) => {
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -82,7 +85,6 @@ class WhatsIn extends Component {
                 return res.json()
             })
             .then(({ feg_types }) => {
-                // console.log(feg_types)
                 this.setState({
                     feg_types: feg_types,
                     loading: false,
@@ -110,6 +112,8 @@ class WhatsIn extends Component {
             })
         }
     }
+
+    
 
     postFeg = (feg, e) => {
         console.log(JSON.stringify(feg))
@@ -204,11 +208,18 @@ class WhatsIn extends Component {
         this.setState({ amount_display: +changeEvent.target.value });
     }
 
+    update_data = (data) => {
+        this.setState({
+            feg_data: data
+        })
+    }
+
     render() {
-        let { at_best, coming_in, feg_types, loading, page, amount_added, soon_display, amount_display } = this.state;
-        console.log(amount_display)
+        let { at_best, coming_in, feg_types, loading, page, amount_added, soon_display, amount_display, at_best_shuffled, feg_data } = this.state;
+        console.log(feg_data)
         return (
             <div>
+                <FegData coming_in={coming_in} at_best={at_best_shuffled} update={this.update_data}/>
                 <h1>Groceries of the Week</h1>
                 <Link to='/my-feg-list'>
                     <p>Basket</p>
@@ -249,22 +260,31 @@ class WhatsIn extends Component {
                             <div id="whatsinfeg">
 
                                 {
-                                    loading ? <p>Loading...</p> :
+                                    loading && !feg_data[0] ? <p>Loading...</p> :
+                                    
                                         at_best[page].map(feg => {
-                                            let feg_name = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
+                                            let lower = /_/g.test(feg.name) ? feg.name.split('_').join(' ') : feg.name
+                                            let upper = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
+                                            console.log(lower, feg_data.map(feg => feg.food_name))
+                                            let [food] = feg_data ? feg_data.filter(feg => feg.food_name === lower) : null
+                                            let image = food ? food.photo.highres : feg.img_src
+                                            console.log(image)
                                             return (
                                                 <div id='smallerBox' style={{ padding: "0px"}} key={feg.at_best_id}>
                                                     <div id="feg">
                                                         <div >
-                                                            <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
+                                                            <img id="feg_img" alt={feg.feg_type_id} src={image} />
                                                         </div>
-                                                        <h1>{feg_name}</h1>
-                                                        <div id="feg_info">
+                                                        {/* <div>
+                                                        <img id="feg_img_hd" alt={feg.feg_type_id} src={feg_data.filter(feg => feg.food_name === lower).photo.highres} />
+                                                        </div> */}
+                                                        <h1>{upper}</h1>
+                                                        {/* <div id="feg_info">
                                                             <div>
-                                                                {/* <h3>Type</h3> */}
+                                                                <h3>Type</h3>
                                                                 <p>{feg_types.filter(type => type.feg_types_id === feg.feg_type_id)[0].feg_type_name}</p>
                                                             </div>
-                                                        </div>
+                                                        </div> */}
                                                         <div>
                                                             {amount_added ? <p>{amount_added}</p> : null}
                                                             <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: feg.img_src, amount: "1" }, e)}>
@@ -272,6 +292,7 @@ class WhatsIn extends Component {
                                                             </form>
                                                         </div>
                                                     </div>
+                                                    
                                                 </div>
                                             )
                                         })
@@ -305,20 +326,23 @@ class WhatsIn extends Component {
                                 loading ? <p>Loading...</p> :
                                     coming_in.map(feg => {
                                         // console.log(feg)
-                                        let feg_name = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
+                                        let lower = /_/g.test(feg.name) ? feg.name.split('_').join(' ') : feg.name
+                                        let upper = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
+                                        let [food] = feg_data ? feg_data.filter(feg => feg.food_name === lower) : null
+                                        let image = food ? food.photo.highres : feg.img_src
                                         return (
                                             <div style={{ padding: "10px" }} key={feg.coming_in_id}>
                                                 <div id="feg">
-                                                    <h1>{feg_name}</h1>
+                                                    <h1>{upper}</h1>
                                                     <div >
-                                                        <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
+                                                        <img id="feg_img" alt={feg.feg_type_id} src={image} />
                                                     </div>
-                                                    <div id="feg_info">
+                                                    {/* <div id="feg_info">
                                                         <div>
                                                             <h3>Type</h3>
                                                             <p>{feg_types.filter(type => type.feg_types_id === feg.feg_type_id)[0].feg_type_name}</p>
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                 </div>
                                             </div>
                                         )

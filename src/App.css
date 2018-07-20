@@ -39,7 +39,7 @@
   background: rgba(252, 245, 238, 0.74);
   display: flex;
   /* justify-content: space-around; */
-  flex-flow: column ;
+  flex-flow: column wrap;
   /* border: rgb(165, 165, 165) solid 2px; */
 }
 

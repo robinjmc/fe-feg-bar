@@ -8,34 +8,12 @@ class FegAmount extends Component {
     fegStatus: '',
     body: {}
   }
-
   componentDidMount() {
+    console.log(this.props.feg_amount, 'mount')
     this.setState({
       amount: this.props.feg_amount
     })
   }
- 
-//   componentDidUpdate(prevProps, prevState) {
-//     let { feg_list_id } = this.props
-//     let { fegStatus } = this.state
-// //dont think I need this
-//     if (prevProps !== this.props && fegStatus.length > 0 && fegStatus !== 'removed') {
-//       console.log('alright')
-//       fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg_list_id}`)
-//         .then(res => {
-//           console.log('gello')
-//           return res.json()
-//         })
-//         .then(body => {
-//           console.log('whats up')
-//           this.setState({
-//             fegStatus: '',
-//             body: body
-//           })
-//         })
-//     }
-//   }
-
   moreFeg = (feg, e) => {
     e.preventDefault();
     fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}?amount=up`, {
@@ -101,6 +79,7 @@ class FegAmount extends Component {
   }
   render() {
     let { amount } = this.state
+    console.log(amount, 'render')
     return (
       <div>
         <div id="feg_info">

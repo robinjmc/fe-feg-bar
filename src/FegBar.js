@@ -7,7 +7,6 @@ import FegList from './FegList'
 
 class FegBar extends Component {
     state={
-
     }
 
     render(){
