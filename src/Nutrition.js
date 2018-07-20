@@ -49,13 +49,13 @@ class Nutrition extends Component {
                     feg_amount: amount,
                     feg_name: name_format
                 })
-                feg.calc_total(nutrients)
+                // feg.calc_total(nutrients)
             })
 
     }
 
     componentDidUpdate(prevProps, prevState) {
-        let { amount, feg } = this.props;
+        let { amount } = this.props;
         let { feg_name } = this.state;
         if (prevProps.amount !== amount && this.state.feg_name) {
             fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
@@ -93,12 +93,13 @@ class Nutrition extends Component {
                         
                     }
                     this.setState({nutrients})
-                    feg.calc_total(nutrients)
+                    // console.log(nutrients)
+                    // feg.calc_total(nutrients)
                 })
         }
     }
 
-
+   
     // nutrition_table = () => {
     //     let { calories, cholesterol, dietary_fiber, potassium, protein, saturated_fat, sodium, sugars, total_carbohydrate, total_fat, weight_grams } = this.state;
     //     let table = [];
@@ -115,10 +116,10 @@ class Nutrition extends Component {
     // }
 
     render() {
-        let { calories, cholesterol, dietary_fiber, potassium, protein, saturated_fat, sodium, sugars, total_carbohydrate, total_fat, weight_grams, loading } = this.state;
-        let {calc_total, feg_name} = this.props.feg
+        let { loading } = this.state;
+        // let {calc_total} = this.props.feg
         // let info = this.state
-        console.log(this.props, calc_total)
+        // console.log(this.props, calc_total)
         return (
             <div>
                 Nutrition
@@ -128,7 +129,7 @@ class Nutrition extends Component {
                             <div>
                                 {
                                     Object.entries(this.state.nutrients).map(([key, value]) => `${key.split("_").map(words => capitalize(words)).join(" ")}: ${value}`).map((data, i) => {
-                                        console.log(data)
+                                        // console.log(data)
                                     // let inputs = data.split(' ')
                                     // let name_format = /_/g.test(inputs[0]) ? inputs[0].split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : inputs[0][0].toUpperCase() + inputs[0].slice(1)
                                    

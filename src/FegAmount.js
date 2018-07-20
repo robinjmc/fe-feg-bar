@@ -14,7 +14,7 @@ class FegAmount extends Component {
       amount: this.props.feg_amount
     })
   }
-
+ 
 //   componentDidUpdate(prevProps, prevState) {
 //     let { feg_list_id } = this.props
 //     let { fegStatus } = this.state
@@ -53,12 +53,14 @@ class FegAmount extends Component {
         this.setState({
           amount: feg_list.amount,
           fegStatus: 'increment'
-        })
+          })
+      this.props.reset('reset')
       })
   }
 
   lessFeg = (feg, e) => {
     e.preventDefault();
+    console.log(this.props.reset)
     fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}?amount=down`, {
       method: 'PUT',
       body: JSON.stringify(feg),
@@ -74,6 +76,7 @@ class FegAmount extends Component {
           amount: feg_list.amount,
           fegStatus: 'decrement'
         })
+       this.props.reset('reset')
       })
   }
 
