@@ -268,16 +268,14 @@ class WhatsIn extends Component {
                                             console.log(lower, feg_data.map(feg => feg.food_name))
                                             let [food] = feg_data ? feg_data.filter(feg => feg.food_name === lower) : null
                                             let image = food ? food.photo.highres : feg.img_src
-                                            console.log(image)
+                                            let entries = food ? Object.entries(food).filter(key => key[0].match(/nf_/g)) : null
+                                            console.log( `${entries}`)
                                             return (
                                                 <div id='smallerBox' style={{ padding: "0px"}} key={feg.at_best_id}>
                                                     <div id="feg">
                                                         <div >
                                                             <img id="feg_img" alt={feg.feg_type_id} src={image} />
                                                         </div>
-                                                        {/* <div>
-                                                        <img id="feg_img_hd" alt={feg.feg_type_id} src={feg_data.filter(feg => feg.food_name === lower).photo.highres} />
-                                                        </div> */}
                                                         <h1>{upper}</h1>
                                                         {/* <div id="feg_info">
                                                             <div>
@@ -287,7 +285,7 @@ class WhatsIn extends Component {
                                                         </div> */}
                                                         <div>
                                                             {amount_added ? <p>{amount_added}</p> : null}
-                                                            <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: feg.img_src, amount: "1" }, e)}>
+                                                            <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: image, amount: "1", nutrients: Object.entries(food).filter(key => /nf\_/g.test(key[0]))}, e)}>
                                                                 <button type="submit">+</button>
                                                             </form>
                                                         </div>
