@@ -269,12 +269,13 @@ class WhatsIn extends Component {
                                             let [food] = feg_data ? feg_data.filter(feg => feg.food_name === lower) : null
                                             let image = food ? food.photo.highres : feg.img_src
                                             let entries = food ? Object.entries(food).filter(key => key[0].match(/nf_/g)) : null
-                                            console.log( `${entries}`)
+                                            let nutrients = `${entries}`
+                                            console.log(JSON.stringify(entries), feg_data, nutrients)
                                             return (
                                                 <div id='smallerBox' style={{ padding: "0px"}} key={feg.at_best_id}>
                                                     <div id="feg">
                                                         <div >
-                                                            <img id="feg_img" alt={feg.feg_type_id} src={image} />
+                                                            <img id="feg_img" alt={feg.img_src} src={image} />
                                                         </div>
                                                         <h1>{upper}</h1>
                                                         {/* <div id="feg_info">
@@ -285,7 +286,7 @@ class WhatsIn extends Component {
                                                         </div> */}
                                                         <div>
                                                             {amount_added ? <p>{amount_added}</p> : null}
-                                                            <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: image, amount: "1", nutrients: Object.entries(food).filter(key => /nf\_/g.test(key[0]))}, e)}>
+                                                            <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: image, amount: "1", nutrients: nutrients}, e)}>
                                                                 <button type="submit">+</button>
                                                             </form>
                                                         </div>
