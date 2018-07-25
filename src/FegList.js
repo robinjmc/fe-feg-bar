@@ -248,11 +248,19 @@ class FegList extends Component {
         return (
             <div>
                 <div>
-                    <h1>Your Feg Basket</h1>
+                    <h1>Feg Basket</h1>
                     {
                         feg_list.length > 0 ?
                             <div>
-                                <Nutrition feg_nutrition={feg_nutrition} />
+                                <Link to='/whats-in-guv'>
+                                    {/* <button> */}
+                                        <p>more feg</p>
+                                    {/* </button> */}
+                                </Link>
+                                <div>
+                                    <Nutrition feg_nutrition={feg_nutrition} />
+                                </div>
+                                
                             </div>
                             : null}
                 </div>
@@ -285,7 +293,7 @@ class FegList extends Component {
                                                                         {
                                                                             feg.nutrients.split('nf_').map(nutrient => {
                                                                                 let breakdown = nutrient.split(',')
-                                                                                let total_value = breakdown[1] ? breakdown[1] * feg.amount : breakdown[1]
+                                                                                let total_value = breakdown[1] ? Number((breakdown[1] * feg.amount).toFixed(4)) : breakdown[1]
                                                                                 console.log(feg.feg_name)
                                                                                 if (total[breakdown[0]] !== undefined) {
                                                                                     return (
@@ -312,11 +320,14 @@ class FegList extends Component {
                                                 </div>
                                             )
                                         }) :
+                                        <div>
+                                            <h2>Your basket is empty</h2>
                                         <Link to='/whats-in-guv'>
                                             <button>
                                                 <h1>Get Me Feg!</h1>
                                             </button>
                                         </Link>
+                                        </div>
                                 }
                             </div>
                     }

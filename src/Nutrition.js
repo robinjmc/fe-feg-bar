@@ -108,6 +108,7 @@ class Nutrition extends Component {
                     }
                     else if (i > 0) {
                         acc = curr.map((nutrient, i) => {
+                            console.log(acc[i][1], nutrient[1])
                             return [acc[i][0], acc[i][1] + nutrient[1]]
                         })
                     }
@@ -115,7 +116,7 @@ class Nutrition extends Component {
                 }, []).map(nutrients => {
                         return (
                         <div>
-                            <p>Basket {nutrients[0]}: {nutrients[1]}</p>
+                            <p>Basket {nutrients[0]}: {Number(nutrients[1].toFixed(4))}</p>
                         </div>
                         )
                     
