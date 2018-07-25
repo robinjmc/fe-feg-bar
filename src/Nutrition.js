@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {capitalize} from 'lodash';
+import { capitalize } from 'lodash';
+import { access } from 'fs';
 class Nutrition extends Component {
     state = {
         loading: true,
@@ -41,7 +42,7 @@ class Nutrition extends Component {
     //                 total_carbohydrate: nf_total_carbohydrate,
     //                 total_fat: nf_total_fat,
     //                 weight_grams: serving_weight_grams
-                    
+
     //             }
     //             this.setState({
     //                 nutrients,
@@ -95,31 +96,53 @@ class Nutrition extends Component {
     //     }
     // }
 
-    // render() {
-    //     let { loading } = this.state;
-    //     return (
-    //         <div>
-    //             Nutrition
-    //             {
-    //                 loading ? <h1>Loading</h1> :
-    //                     <div>
-    //                         <div>
-    //                             {
-    //                                 Object.entries(this.state.nutrients).map(([key, value]) => `${key.split("_").map(words => capitalize(words)).join(" ")}: ${value}`).map((data, i) => {
-    //                                     return (
-    //                                         <div key={i}>
-    //                                         <p>{data.replace('_', ' ')}</p>
-    //                                         </div>
-    //                                     )
-    //                                 })
+    render() {
+        let { loading } = this.state;
+        let { feg_nutrition } = this.props
+        console.log(feg_nutrition, Object.values(feg_nutrition))
+        return (
+            <div id="total_nutrition">
+                {Object.values(feg_nutrition).reduce((acc, curr, i) => {
+                    if (i == 0) {
+                        acc = curr
+                    }
+                    else if (i > 0) {
+                        acc = curr.map((nutrient, i) => {
+                            return [acc[i][0], acc[i][1] + nutrient[1]]
+                        })
+                    }
+                    return acc
+                }, []).map(nutrients => {
+                        return (
+                        <div>
+                            <p>Basket {nutrients[0]}: {nutrients[1]}</p>
+                        </div>
+                        )
+                    
+                })}
+            </div>
+            // <div>
+            //     Nutrition
+            //     {
+            //         loading ? <h1>Loading</h1> :
+            //             <div>
+            //                 <div>
+            //                     {
+            //                         Object.entries(this.state.nutrients).map(([key, value]) => `${key.split("_").map(words => capitalize(words)).join(" ")}: ${value}`).map((data, i) => {
+            //                             return (
+            //                                 <div key={i}>
+            //                                 <p>{data.replace('_', ' ')}</p>
+            //                                 </div>
+            //                             )
+            //                         })
 
-    //                             }
-    //                         </div>
-    //                     </div>
-    //             }
-    //         </div>
-    //     )
-    // }
+            //                     }
+            //                 </div>
+            //             </div>
+            //     }
+            // </div>
+        )
+    }
 }
 
 export default Nutrition

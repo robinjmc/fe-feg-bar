@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 
 import FegAmount from './FegAmount';
+import Nutrition from './Nutrition'
 import numeral from 'numeral';
+import update from 'immutability-helper';
 
 class FegList extends Component {
     state = {
@@ -11,17 +13,29 @@ class FegList extends Component {
         fegRemoved: false,
         reset: false,
         add_feg: [],
+        amount_change: false,
+        nutrition: {},
         total_nutrition: {
-            nf_calories: 0,
-            nf_cholesterol: 0,
-            nf_dietary_fiber: 0,
-            nf_potassium: 0,
-            nf_protein: 0,
-            nf_saturated_fat: 0,
-            nf_sodium: 0,
-            nf_sugars: 0,
-            nf_total_carbohydrate: 0,
-            nf_total_fat: 0
+            calories: 0,
+            cholesterol: 0,
+            dietary_fiber: 0,
+            potassium: 0,
+            protein: 0,
+            saturated_fat: 0,
+            sodium: 0,
+            sugars: 0,
+            total_carbohydrate: 0,
+            total_fat: 0
+            // nf_calories: 0,
+            // nf_cholesterol: 0,
+            // nf_dietary_fiber: 0,
+            // nf_potassium: 0,
+            // nf_protein: 0,
+            // nf_saturated_fat: 0,
+            // nf_sodium: 0,
+            // nf_sugars: 0,
+            // nf_total_carbohydrate: 0,
+            // nf_total_fat: 0
         }
     }
 
@@ -90,7 +104,8 @@ class FegList extends Component {
     // }
 
     componentDidUpdate(prevProps, prevState) {
-        let { fegRemoved, reset } = this.state
+        console.log(this.state)
+        let { fegRemoved, reset, amount_change } = this.state
         if (fegRemoved) {
             fetch('https://feg-bar.herokuapp.com/api/feg_list')
                 .then(res => {
@@ -101,6 +116,19 @@ class FegList extends Component {
                         loading: false,
                         feg_list: feg_list,
                         fegRemoved: false
+                    })
+                })
+        }
+        if (amount_change) {
+            fetch('https://feg-bar.herokuapp.com/api/feg_list')
+                .then(res => {
+                    return res.json()
+                })
+                .then(({ feg_list }) => {
+                    this.setState({
+                        loading: false,
+                        feg_list: feg_list,
+                        amount_change: false
                     })
                 })
         }
@@ -160,16 +188,16 @@ class FegList extends Component {
     //     this.setState({
     //         reset: true,
     //         total_nutrition: {
-    //             nf_calories: 0,
-    //             nf_cholesterol: 0,
-    //             nf_dietary_fiber: 0,
-    //             nf_potassium: 0,
-    //             nf_protein: 0,
-    //             nf_saturated_fat: 0,
-    //             nf_sodium: 0,
-    //             nf_sugars: 0,
-    //             nf_total_carbohydrate: 0,
-    //             nf_total_fat: 0
+    //             calories: 0,
+    //             cholesterol: 0,
+    //             dietary_fiber: 0,
+    //             potassium: 0,
+    //             protein: 0,
+    //             saturated_fat: 0,
+    //             sodium: 0,
+    //             sugars: 0,
+    //             total_carbohydrate: 0,
+    //             total_fat: 0
     //         }
     //     })
     // }
@@ -178,6 +206,14 @@ class FegList extends Component {
         if (feg === 'removed') {
             this.setState({
                 fegRemoved: true
+            })
+        }
+    }
+
+    amount_change = (feg) => {
+        if (feg === 'change') {
+            this.setState({
+                amount_change: true
             })
         }
     }
@@ -194,6 +230,7 @@ class FegList extends Component {
     //     }))
     // }
 
+
     calculate = (value, rda) => {
         console.log(value, rda)
         let load = value ? numeral(value).format() : 'calculating'
@@ -206,48 +243,18 @@ class FegList extends Component {
 
     render() {
         const { feg_list, loading, total_nutrition: total } = this.state;
+        let feg_nutrition = {}
+        console.log(feg_nutrition)
         return (
             <div>
                 <div>
-                    <h1>Your Feg</h1>
+                    <h1>Your Feg Basket</h1>
                     {
                         feg_list.length > 0 ?
-                        <div>
-                            <Link to='/whats-in-guv'><p>More Feg</p></Link>
-                            <div id="total_nutrition">
-                                <div>
-                                    <p>Total Calories: {this.calculate(total.nf_calories, 2500)}</p>
-                                </div>
-                                {/* <div>
-                                    <p>Total Cholesterol: {this.calculate(total.nf_cholesterol)}</p>
-                                </div> */}
-                                <div>
-                                    <p>Total Dietary Fiber: {this.calculate(total.nf_dietary_fiber, 24)}</p>
-                                </div>
-                                {/* <div>
-                                    <p>Total Potassium: {this.calculate(total.nf_potassium)}</p>
-                                </div> */}
-                                <div>
-                                    <p>Total Protein: {this.calculate(total.nf_protein, 55)}</p>
-                                </div>
-                                <div>
-                                    <p>Total Saturated Fat: {this.calculate(total.nf_saturated_fat, 30)}</p>
-                                </div>
-                                {/* <div>
-                                    <p>Total Sodium: {this.calculate(total.nf_sodium)}</p>
-                                </div> */}
-                                <div>
-                                    <p>Total Sugars: {this.calculate(total.nf_sugars, 120)}</p>
-                                </div>
-                                <div>
-                                    <p>Total Carbohydrates: {this.calculate(total.nf_total_carbohydrate, 300)}</p>
-                                </div>
-                                <div>
-                                    <p>Total Fat: {this.calculate(total.nf_total_fat, 95)}</p>
-                                </div>
+                            <div>
+                                <Nutrition feg_nutrition={feg_nutrition} />
                             </div>
-                        </div>
-                        : null}
+                            : null}
                 </div>
                 <div id="whatsinfeg">
                     {
@@ -258,6 +265,8 @@ class FegList extends Component {
                                         feg_list.map(feg => {
                                             console.log(feg)
                                             let feg_name = /_/g.test(feg.feg_name) ? feg.feg_name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.feg_name[0].toUpperCase() + feg.feg_name.slice(1)
+                                            feg_nutrition[feg.feg_name] = []
+                                            console.log(feg_nutrition, feg.feg_list_id)
                                             return (
                                                 <div style={{ padding: "10px" }} key={feg.feg_list_id}>
                                                     <div id="feg">
@@ -266,27 +275,38 @@ class FegList extends Component {
                                                             <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
                                                         </div>
                                                         <div >
-                                                            <FegAmount feg_list_id={`${feg.feg_list_id}`} feggie_id={`${feg.feggie_id}`} feg_name={feg.feg_name} img_src={feg.img_src} feg_amount={feg.amount} fegRemoved={this.fegRemoved} /> 
+                                                            <FegAmount feg_list_id={`${feg.feg_list_id}`} feggie_id={`${feg.feggie_id}`} feg_name={feg.feg_name} img_src={feg.img_src} feg_amount={feg.amount} fegRemoved={this.fegRemoved} amount_change={this.amount_change} />
                                                         </div>
                                                         {/* calc_total={this.calc_total} reset={this.reset_nutrients} */}
                                                         <div >
-                                                        {
-                                                            feg.nutrients ? 
-                                                            <div id="nutrients">
-                                                                {
-                                                                    feg.nutrients.split('nf_').map(nutrient => {
-                                                                        let breakdown = nutrient.split(',')
-                                                                        return(
-                                                                            <div id="nutrient">
-                                                                            <p>{breakdown[0]}</p>
-                                                                            <p>{breakdown[1]}</p>
-                                                                            </div>
-                                                                        )
-                                                                    })
-                                                                    }
-                                                                </div>
-                                                                : <p>nutrients coming soon</p>
-                                                        }
+                                                            {
+                                                                feg.nutrients ?
+                                                                    <div id="nutrients">
+                                                                        {
+                                                                            feg.nutrients.split('nf_').map(nutrient => {
+                                                                                let breakdown = nutrient.split(',')
+                                                                                let total_value = breakdown[1] ? breakdown[1] * feg.amount : breakdown[1]
+                                                                                console.log(feg.feg_name)
+                                                                                if (total[breakdown[0]] !== undefined) {
+                                                                                    return (
+                                                                                        <div >
+                                                                                            {feg_nutrition[feg.feg_name].push([breakdown[0], total_value])}
+                                                                                            <div id="nutrient">
+                                                                                                <p>{breakdown[0]} of 1 serving:</p>
+                                                                                                <p>{breakdown[1]}</p>
+                                                                                            </div>
+                                                                                            <div id="nutrient">
+                                                                                                <p>Total {breakdown[0]}: </p>
+                                                                                                <p>{total_value}</p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    )
+                                                                                }
+                                                                            })
+                                                                        }
+                                                                    </div>
+                                                                    : <p>nutrients coming soon</p>
+                                                            }
                                                         </div>
                                                     </div>
                                                 </div>

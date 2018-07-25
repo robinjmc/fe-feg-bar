@@ -32,6 +32,7 @@ class FegAmount extends Component {
           amount: feg_list.amount,
           fegStatus: 'increment'
           })
+          feg.amount_change('change')
       // this.props.reset('reset')
       })
   }
@@ -54,6 +55,7 @@ class FegAmount extends Component {
           amount: feg_list.amount,
           fegStatus: 'decrement'
         })
+        feg.amount_change('change')
       //  this.props.reset('reset')
       })
   }
