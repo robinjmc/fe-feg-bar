@@ -99,27 +99,27 @@ class Nutrition extends Component {
     render() {
         let { loading } = this.state;
         let { feg_nutrition } = this.props
-        console.log(feg_nutrition, Object.values(feg_nutrition))
         return (
             <div id="total_nutrition">
                 {Object.values(feg_nutrition).reduce((acc, curr, i) => {
-                    if (i == 0) {
-                        acc = curr
-                    }
-                    else if (i > 0) {
-                        acc = curr.map((nutrient, i) => {
-                            console.log(acc[i][1], nutrient[1])
-                            return [acc[i][0], acc[i][1] + nutrient[1]]
-                        })
+                    if (curr.length > 0) {
+                        if (i == 0) {
+                            return acc = curr
+                        }
+                        else if (i > 0) {
+                            acc = curr.map((nutrient, i) => {
+                                return [acc[i][0], acc[i][1] + nutrient[1]]
+                            })
+                        }
                     }
                     return acc
-                }, []).map(nutrients => {
-                        return (
-                        <div>
+                }, []).map((nutrients, i) => {
+                    return (
+                        <div key={i}>
                             <p>Basket {nutrients[0]}: {Number(nutrients[1].toFixed(4))}</p>
                         </div>
-                        )
-                    
+                    )
+
                 })}
             </div>
             // <div>

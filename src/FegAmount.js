@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Nutrition from './Nutrition';
 
 class FegAmount extends Component {
   state = {
@@ -33,7 +32,6 @@ class FegAmount extends Component {
           fegStatus: 'increment'
           })
           feg.amount_change('change')
-      // this.props.reset('reset')
       })
   }
 
@@ -56,7 +54,6 @@ class FegAmount extends Component {
           fegStatus: 'decrement'
         })
         feg.amount_change('change')
-      //  this.props.reset('reset')
       })
   }
 
@@ -97,9 +94,6 @@ class FegAmount extends Component {
             ><button>+</button></form>
           </div>
         </div>
-        {/* <div>
-          <Nutrition amount={amount} feg={this.props}/>
-        </div> */}
       </div>
     )
   }

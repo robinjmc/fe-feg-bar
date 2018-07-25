@@ -13,7 +13,8 @@ class WhatsIn extends Component {
         soon_display: false,
         amount_display: 1,
         at_best_shuffled: [],
-        feg_data: []
+        feg_data: [],
+        at_best: []
     }
     shuffle = (array) => {
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -107,7 +108,7 @@ class WhatsIn extends Component {
 
     
 
-    postFeg = (feg, e) => {
+    post_feg = (feg, e) => {
         e.preventDefault();
         fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feggie_id}`, {
             method: 'POST',
@@ -125,24 +126,6 @@ class WhatsIn extends Component {
                 })
             })
     }
-
-    order = (set_length) => {
-        let feggiedex = []
-        function getRandomInt(max) {
-            return Math.floor(Math.random() * Math.floor(max));
-        }
-        for (let f = 0; f < set_length; f++) {
-            const random = getRandomInt(set_length)
-            if (!feggiedex.includes(random) || feggiedex.indexOf(random) === -1) {
-                console.log(feggiedex.includes(random), random, 'doesnt')
-                feggiedex.push(getRandomInt(set_length))
-            } else {
-                console.log(random)
-            }
-        }
-        return feggiedex;
-    }
-
 
     more_feg = (arr, e) => {
         console.log('more')
@@ -205,11 +188,12 @@ class WhatsIn extends Component {
 
     render() {
         let { at_best, coming_in, feg_types, loading, page, amount_added, soon_display, amount_display, at_best_shuffled, feg_data } = this.state;
-        console.log(feg_data.length)
+console.log(at_best)
+        let col_width = amount_display === 1 ? {"width": "100%"} : null
         return (<div>
             
                 <FegData coming_in={coming_in} at_best={at_best_shuffled} update={this.update_data}/>
-            {  loading && feg_data.length === 0 && !at_best ? <img alt="Loading..." src="https://gph.to/2NDvU2D" /> :
+            {  loading || feg_data.length === 0 || at_best.length === 0 ? <img alt="Loading..." src="https://gph.to/2NDvU2D" /> :
 
                 <div>
                 
@@ -219,20 +203,20 @@ class WhatsIn extends Component {
                     <p>Basket</p>
                 </Link>
                 <div>
-                    <form>
-                        <div className="radio">
+                    <form style={{"display": "flex", "flexFlow": "row", "justifyContent":"center", "alignItems":"center"}}>
+                        <div className="radio" id="display">
                             <label>
                                 <input type="radio" value={1} checked={amount_display === 1} onChange={this.handleOptionChange} />
                                 1
                             </label>
                         </div>
-                        <div className="radio">
+                        <div className="radio" id="display">
                             <label>
                                 <input type="radio" value={3} checked={amount_display === 3} onChange={this.handleOptionChange} />
                                 3
                             </label>
                         </div>
-                        <div className="radio">
+                        <div className="radio" id="display">
                             <label>
                                 <input type="radio" value={6} checked={amount_display === 6} onChange={this.handleOptionChange} />
                                 6
@@ -244,19 +228,17 @@ class WhatsIn extends Component {
                     <div id='fegCol'></div>
                     <div id='whatsin'>
                         <div id="whatsinfegcontainer">
-                            <div id="more_feg">
-                                <form onSubmit={e => this.less_feg(at_best, e)}>
-                                    <button type="submit">
-                                        -
+                            <div id="more_feg" style={col_width}>
+                                <form onSubmit={e => this.less_feg(at_best, e)} >
+                                    <button id="more_button"type="submit">
+                                        |
                                     </button>
                                 </form>
-                            </div>
+                            </div>{
+                            console.log(at_best)}
                             <div id="whatsinfeg">
-
                                 {
-                                    // loading && !feg_data[0] ? <p>Loading...</p> :
-                                    
-                                        at_best[page].map(feg => {
+                                           at_best.length > 0 ? at_best[page].map(feg => {
                                             let lower = /_/g.test(feg.name) ? feg.name.split('_').join(' ') : feg.name
                                             let upper = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
                                             let [food] = feg_data ? feg_data.filter(feg => feg.food_name === lower) : null
@@ -271,24 +253,26 @@ class WhatsIn extends Component {
                                                             <img id="feg_img" alt={feg.img_src} src={image} />
                                                         </div>
                                                         <h1>{upper}</h1>
-                                                        <div>
-                                                            {amount_added ? <p>{amount_added}</p> : null}
-                                                            <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: image, amount: "1", nutrients: nutrients}, e)}>
-                                                                <button type="submit">+</button>
+                                                        <div style={{"display": "flex", "flexFlow": "row", "justifyContent":"center", "alignItems":"center"}}>
+                                                            {/* <div ></div>
+                                                            <div >{amount_added ? <p>{amount_added}</p> : <div></div>}</div> */}
+                                                            <div >
+                                                            <form onSubmit={e => this.post_feg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: image, amount: "1", nutrients: nutrients}, e)}>
+                                                                <button style={{height:"5em", width:"5em"}} type="submit">{amount_added ? <p>{amount_added}</p> : <p>+</p>}</button>
                                                             </form>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    
                                                 </div>
-                                            )
-                                        })
+                                            ) 
+                                        }): <div></div>
                                 }
 
                             </div>
-                            <div id="more_feg">
+                            <div id="more_feg" style={col_width} >
                                 <form onSubmit={e => this.more_feg(at_best, e)}>
-                                    <button>
-                                        -
+                                    <button id="more_button">
+                                        |
                                     </button>
                                 </form>
                             </div>

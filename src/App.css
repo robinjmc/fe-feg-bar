@@ -26,28 +26,31 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
-
+#display{
+  width:15%;
+}
 #whatsin {
   display: flex;
   flex-flow: column;
   /* background-color: #222; */
   width:100%;
   justify-content: space-around;
+  /* border: rgb(165, 165, 165) solid 2px; */
 }
 
 #whatsinfeg {
   background: rgba(252, 245, 238, 0.74);
   display: flex;
-  /* justify-content: space-around; */
-  flex-flow: column wrap;
+  justify-content: space-around;
+  flex-flow: row wrap;
   /* border: rgb(165, 165, 165) solid 2px; */
 }
 
 #feg {
   background:  rgb(255, 255, 255);
-  display: flex;
+  display: flex wrap;
   flex-flow: column;
-  justify-content: space-between;
+  justify-content: space-around;
   padding:1em;
   align-items: center;
   width: 25em;
@@ -85,16 +88,21 @@
 #fegCol {
   display: flex;
   flex-flow: column;
-    width: 100%;
-    padding: 0.2em;
-    /* background: black; */
+  width: 0%;
+    /* padding: 0.2em; */
+    background: black;
 }
 
 @media screen and (min-width: 1400px) {
   #fegCol {
-    width: 10em;
-    padding: 6em;
+    /* width: 10em;
+    padding: 6em; */
     /* background: yellow; */
+  }
+  #more_feg {
+    /* width: 10em;
+    padding: 6em;
+    background: yellow; */
   }
 }
 
@@ -110,16 +118,26 @@
 
 @media screen and (max-width: 500px) {
   #whatsinfegcontainer {
-    flex-direction: column;
+    /* flex-direction: row ;
     justify-content: center;
-    align-items: center
+    align-items: center;
+    width:50%;
+    border: rgb(165, 165, 165) solid 2px; */
+  }
+  #more_feg {
+    width: 0em;
+    height: 100%;
+    padding: 6em;
+    background: yellow;
+    border: rgb(165, 165, 165) solid 2px;
   }
   #fegCol {
+
     display: flex;
     flex-flow: column;
     width: 0em;
     padding: 0em;
-    /* background: green; */
+    background: green;
   }
   #feg_img {
     width: 10em;
@@ -128,23 +146,22 @@
     border-radius: 0%;
   }
   #whatsinfeg {
-    width: 50%;
-    /* background: yellow; */
+    border: rgb(165, 165, 165) solid 2px;
+    background: white;
   }
   #smallerBox, #feg {
-    width: 95%;
+    /* width: 95%; */
   }
   #smallerBox {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-wrap: nowrap;
   }
   #whatsin {
     width: 100%;
   }
   #feg{
     background:white;
-    width:80%
+    /* width:80% */
   }
 }
 
@@ -156,8 +173,15 @@
   padding:0.5em;
   align-items: center;
   width: 2em;
+  /* width: 100%; */
   position: relative;
-  border: rgba(0, 0, 0, 0.186) solid 2px;
+  height: 30em;
+  
+  /* border: rgba(0, 0, 0, 0.186) solid 2px; */
+}
+
+#more_button {
+  height: 30em;
 }
 
 #total_nutrition {
