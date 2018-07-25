@@ -321,12 +321,13 @@ class FegList extends Component {
                                             )
                                         }) :
                                         <div>
-                                            <h2>Your basket is empty</h2>
+                                            
                                         <Link to='/whats-in-guv'>
-                                            <button>
-                                                <h1>Get Me Feg!</h1>
-                                            </button>
+                                            {/* <button> */}
+                                            <img alt="Get Me Feg!" src="https://media.giphy.com/media/2AL9ryaLCciMsqHYlr/giphy.gif" /> 
+                                            {/* </button> */}
                                         </Link>
+                                        <h2>Your basket is empty</h2>
                                         </div>
                                 }
                             </div>

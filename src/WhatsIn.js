@@ -17,20 +17,13 @@ class WhatsIn extends Component {
     }
     shuffle = (array) => {
         var currentIndex = array.length, temporaryValue, randomIndex;
-
-        // While there remain elements to shuffle...
         while (0 !== currentIndex) {
-
-            // Pick a remaining element...
             randomIndex = Math.floor(Math.random() * currentIndex);
             currentIndex -= 1;
-
-            // And swap it with the current element.
             temporaryValue = array[currentIndex];
             array[currentIndex] = array[randomIndex];
             array[randomIndex] = temporaryValue;
         }
-
         return array;
     }
 
@@ -42,7 +35,6 @@ class WhatsIn extends Component {
         let results = [];
 
         while (newArray.length) {
-            console.log('chunk')
             results.push(newArray.splice(0, chunk));
         }
 
@@ -105,7 +97,7 @@ class WhatsIn extends Component {
                 feg_status: ''
             })
         }
-        if (prevState.amount_display !== amount_display) {
+        if (prevState.amount_display !== amount_display || prevState.at_best_shuffled !== at_best_shuffled) {
             this.setState({
                 amount_display: amount_display,
                 at_best: this.chunkArray(at_best_shuffled, this.state.amount_display)
@@ -116,7 +108,6 @@ class WhatsIn extends Component {
     
 
     postFeg = (feg, e) => {
-        console.log(JSON.stringify(feg))
         e.preventDefault();
         fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feggie_id}`, {
             method: 'POST',
@@ -129,7 +120,6 @@ class WhatsIn extends Component {
                 return res.json()
             })
             .then(body => {
-                console.log(body)
                 this.setState({
                     feg_status: 'posted'
                 })
@@ -204,7 +194,6 @@ class WhatsIn extends Component {
     }
 
     handleOptionChange = (changeEvent) => {
-        console.log(typeof changeEvent.target.value)
         this.setState({ amount_display: +changeEvent.target.value });
     }
 
@@ -216,10 +205,14 @@ class WhatsIn extends Component {
 
     render() {
         let { at_best, coming_in, feg_types, loading, page, amount_added, soon_display, amount_display, at_best_shuffled, feg_data } = this.state;
-        console.log(feg_data)
-        return (
-            <div>
+        console.log(feg_data.length)
+        return (<div>
+            
                 <FegData coming_in={coming_in} at_best={at_best_shuffled} update={this.update_data}/>
+            {  loading && feg_data.length === 0 && !at_best ? <img alt="Loading..." src="https://gph.to/2NDvU2D" /> :
+
+                <div>
+                
                 <h1>Fegbar</h1>
                 <h4><i>Who's in this week?</i></h4>
                 <Link to='/my-feg-list'>
@@ -261,7 +254,7 @@ class WhatsIn extends Component {
                             <div id="whatsinfeg">
 
                                 {
-                                    loading && !feg_data[0] ? <p>Loading...</p> :
+                                    // loading && !feg_data[0] ? <p>Loading...</p> :
                                     
                                         at_best[page].map(feg => {
                                             let lower = /_/g.test(feg.name) ? feg.name.split('_').join(' ') : feg.name
@@ -340,6 +333,7 @@ class WhatsIn extends Component {
                     </div>
                     <div id='fegCol'></div>
                 </div>
+                </div>}
             </div>
         )
     }

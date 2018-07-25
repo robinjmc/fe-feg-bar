@@ -9,10 +9,12 @@ class Landing extends Component {
             <div>
                 <div>
                     <Link to='/whats-in-guv'>
-                        <button>
-                            <h1>Get Me Feg!</h1>
-                        </button>
+                        {/* <button> */}
+                            {/* <h1>Get Me Feg!</h1> */}
+                            <img alt="Get Me Feg!"src="https://media.giphy.com/media/2AL9ryaLCciMsqHYlr/giphy.gif"/>
+                        {/* </button> */}
                     </Link>
+                    
                     {/* <button>
                     
                     </button> */}
