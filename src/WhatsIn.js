@@ -220,7 +220,8 @@ class WhatsIn extends Component {
         return (
             <div>
                 <FegData coming_in={coming_in} at_best={at_best_shuffled} update={this.update_data}/>
-                <h1>Groceries of the Week</h1>
+                <h1>Fegbar</h1>
+                <h4><i>Who's in this week?</i></h4>
                 <Link to='/my-feg-list'>
                     <p>Basket</p>
                 </Link>
@@ -265,7 +266,6 @@ class WhatsIn extends Component {
                                         at_best[page].map(feg => {
                                             let lower = /_/g.test(feg.name) ? feg.name.split('_').join(' ') : feg.name
                                             let upper = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
-                                            console.log(lower, feg_data.map(feg => feg.food_name))
                                             let [food] = feg_data ? feg_data.filter(feg => feg.food_name === lower) : null
                                             let image = food ? food.photo.highres : feg.img_src
                                             let entries = food ? Object.entries(food).filter(key => key[0].match(/nf_/g)) : null
@@ -278,12 +278,6 @@ class WhatsIn extends Component {
                                                             <img id="feg_img" alt={feg.img_src} src={image} />
                                                         </div>
                                                         <h1>{upper}</h1>
-                                                        {/* <div id="feg_info">
-                                                            <div>
-                                                                <h3>Type</h3>
-                                                                <p>{feg_types.filter(type => type.feg_types_id === feg.feg_type_id)[0].feg_type_name}</p>
-                                                            </div>
-                                                        </div> */}
                                                         <div>
                                                             {amount_added ? <p>{amount_added}</p> : null}
                                                             <form onSubmit={e => this.postFeg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: image, amount: "1", nutrients: nutrients}, e)}>
@@ -336,12 +330,6 @@ class WhatsIn extends Component {
                                                     <div >
                                                         <img id="feg_img" alt={feg.feg_type_id} src={image} />
                                                     </div>
-                                                    {/* <div id="feg_info">
-                                                        <div>
-                                                            <h3>Type</h3>
-                                                            <p>{feg_types.filter(type => type.feg_types_id === feg.feg_type_id)[0].feg_type_name}</p>
-                                                        </div>
-                                                    </div> */}
                                                 </div>
                                             </div>
                                         )

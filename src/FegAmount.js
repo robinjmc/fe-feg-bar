@@ -32,13 +32,13 @@ class FegAmount extends Component {
           amount: feg_list.amount,
           fegStatus: 'increment'
           })
-      this.props.reset('reset')
+      // this.props.reset('reset')
       })
   }
 
   lessFeg = (feg, e) => {
     e.preventDefault();
-    console.log(this.props.reset)
+    // console.log(this.props.reset)
     fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}?amount=down`, {
       method: 'PUT',
       body: JSON.stringify(feg),
@@ -54,7 +54,7 @@ class FegAmount extends Component {
           amount: feg_list.amount,
           fegStatus: 'decrement'
         })
-       this.props.reset('reset')
+      //  this.props.reset('reset')
       })
   }
 
@@ -95,9 +95,9 @@ class FegAmount extends Component {
             ><button>+</button></form>
           </div>
         </div>
-        <div>
+        {/* <div>
           <Nutrition amount={amount} feg={this.props}/>
-        </div>
+        </div> */}
       </div>
     )
   }

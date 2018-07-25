@@ -165,6 +165,23 @@
   flex-flow: row;
 }
 
+#nutrients {
+  background:  rgba(252, 245, 238, 0.74);
+  display: flex wrap ;
+  flex-flow: row;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+}
+
+#nutrient {
+  background:  rgba(118, 241, 255, 0.186);
+  display: flex wrap;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+}
 /* 
 input {
   margin: .4rem;

@@ -25,6 +25,21 @@ class FegList extends Component {
         }
     }
 
+    componentDidMount() {
+        fetch('https://feg-bar.herokuapp.com/api/feg_list')
+            .then(res => {
+                return res.json()
+            })
+            .then(({ feg_list }) => {
+                console.log(feg_list)
+                this.setState({
+                    loading: false,
+                    feg_list: feg_list,
+                    reset: false
+                })
+            })
+    }
+
     // componentDidMount() {
     //     fetch('https://feg-bar.herokuapp.com/api/feg_list')
     //         .then(res => {
@@ -74,21 +89,22 @@ class FegList extends Component {
     //         })
     // }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     let { fegRemoved, reset } = this.state
-    //     if (fegRemoved) {
-    //         fetch('https://feg-bar.herokuapp.com/api/feg_list')
-    //             .then(res => {
-    //                 return res.json()
-    //             })
-    //             .then(({ feg_list }) => {
-    //                 this.setState({
-    //                     loading: false,
-    //                     feg_list: feg_list,
-    //                     fegRemoved: false
-    //                 })
-    //             })
-    //     }
+    componentDidUpdate(prevProps, prevState) {
+        let { fegRemoved, reset } = this.state
+        if (fegRemoved) {
+            fetch('https://feg-bar.herokuapp.com/api/feg_list')
+                .then(res => {
+                    return res.json()
+                })
+                .then(({ feg_list }) => {
+                    this.setState({
+                        loading: false,
+                        feg_list: feg_list,
+                        fegRemoved: false
+                    })
+                })
+        }
+    }
     //     if (reset) {
     //         fetch('https://feg-bar.herokuapp.com/api/feg_list')
     //         .then(res => {
@@ -158,16 +174,16 @@ class FegList extends Component {
     //     })
     // }
 
-    // fegRemoved = (feg) => {
-    //     if (feg === 'removed') {
-    //         this.setState({
-    //             fegRemoved: true
-    //         })
-    //     }
-    // }
+    fegRemoved = (feg) => {
+        if (feg === 'removed') {
+            this.setState({
+                fegRemoved: true
+            })
+        }
+    }
 
     // calc_total = (nutrition) => {
-        
+
     //     const total_nutrition = {}
     //     for (const key in this.state.total_nutrition) {
     //         console.log(nutrition[key], nutrition.food_name)
@@ -185,7 +201,7 @@ class FegList extends Component {
         //     return `${numeral((value / rda) * 100).format()} % GDA`
         // } else {
         return load;
-    // }
+        // }
     }
 
     render() {
@@ -194,7 +210,8 @@ class FegList extends Component {
             <div>
                 <div>
                     <h1>Your Feg</h1>
-                    {feg_list.length > 0 ?
+                    {
+                        feg_list.length > 0 ?
                         <div>
                             <Link to='/whats-in-guv'><p>More Feg</p></Link>
                             <div id="total_nutrition">
@@ -239,6 +256,7 @@ class FegList extends Component {
                                 {
                                     feg_list.length > 0 ?
                                         feg_list.map(feg => {
+                                            console.log(feg)
                                             let feg_name = /_/g.test(feg.feg_name) ? feg.feg_name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.feg_name[0].toUpperCase() + feg.feg_name.slice(1)
                                             return (
                                                 <div style={{ padding: "10px" }} key={feg.feg_list_id}>
@@ -248,7 +266,27 @@ class FegList extends Component {
                                                             <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
                                                         </div>
                                                         <div >
-                                                            <FegAmount feg_list_id={`${feg.feg_list_id}`} feggie_id={`${feg.feggie_id}`} feg_name={feg.feg_name} img_src={feg.img_src} feg_amount={feg.amount} fegRemoved={this.fegRemoved} calc_total={this.calc_total} reset={this.reset_nutrients} />
+                                                            <FegAmount feg_list_id={`${feg.feg_list_id}`} feggie_id={`${feg.feggie_id}`} feg_name={feg.feg_name} img_src={feg.img_src} feg_amount={feg.amount} fegRemoved={this.fegRemoved} /> 
+                                                        </div>
+                                                        {/* calc_total={this.calc_total} reset={this.reset_nutrients} */}
+                                                        <div >
+                                                        {
+                                                            feg.nutrients ? 
+                                                            <div id="nutrients">
+                                                                {
+                                                                    feg.nutrients.split('nf_').map(nutrient => {
+                                                                        let breakdown = nutrient.split(',')
+                                                                        return(
+                                                                            <div id="nutrient">
+                                                                            <p>{breakdown[0]}</p>
+                                                                            <p>{breakdown[1]}</p>
+                                                                            </div>
+                                                                        )
+                                                                    })
+                                                                    }
+                                                                </div>
+                                                                : <p>nutrients coming soon</p>
+                                                        }
                                                         </div>
                                                     </div>
                                                 </div>
