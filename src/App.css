@@ -26,3 +26,224 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+#display{
+  width:15%;
+}
+#whatsin {
+  display: flex;
+  flex-flow: column;
+  /* background-color: #222; */
+  width:100%;
+  justify-content: space-around;
+  /* border: rgb(165, 165, 165) solid 2px; */
+}
+
+#whatsinfeg {
+  background: rgba(252, 245, 238, 0.74);
+  display: flex;
+  justify-content: space-around;
+  flex-flow: row wrap;
+  /* border: rgb(165, 165, 165) solid 2px; */
+}
+
+#feg {
+  background:  rgb(255, 255, 255);
+  display: flex wrap;
+  flex-flow: column;
+  justify-content: space-around;
+  padding:1em;
+  align-items: center;
+  width: 25em;
+  position: relative;
+  /* border: rgba(0, 0, 0, 0.186) solid 2px; */
+}
+#feg_basket {
+  background:  rgb(255, 255, 255);
+  display: flex wrap;
+  flex-flow: column;
+  justify-content: space-around;
+  padding:1em;
+  align-items: center;
+  width: 20em;
+  position: relative;
+  border: rgba(0, 0, 0, 0.186) solid 2px;
+  font-size: 70%;
+}
+
+#feg_img {
+  width: 25em;
+  height: 25em;
+  object-fit: cover;
+  border-radius: 0%;
+}
+
+#feg_img_list {
+  width: 10em;
+  height: 10em;
+  object-fit: cover;
+  border-radius: 0%;
+}
+
+#feg_info {
+  padding-top: 1em;
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 10em;
+  height: 5em;
+}
+
+#page{
+  background:  rgba(252, 245, 238, 0.74);
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  /* border: #222 solid 2px; */
+}
+
+#fegCol {
+  display: flex;
+  flex-flow: column;
+  width: 0%;
+    /* padding: 0.2em; */
+    background: black;
+}
+
+@media screen and (min-width: 1400px) {
+  #fegCol {
+    /* width: 10em;
+    padding: 6em; */
+    /* background: yellow; */
+  }
+  #more_feg {
+    /* width: 10em;
+    padding: 6em;
+    background: yellow; */
+  }
+}
+
+#whatsinfegcontainer {
+  background: rgba(252, 245, 238, 0.74);
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  flex-flow: row;
+  padding: 0em;
+  /* border: rgb(165, 165, 165) solid 2px; */
+}
+
+@media screen and (max-width: 500px) {
+  #whatsinfegcontainer {
+    /* flex-direction: row ;
+    justify-content: center;
+    align-items: center;
+    width:50%;
+    border: rgb(165, 165, 165) solid 2px; */
+  }
+  #more_feg {
+    width: 0em;
+    height: 100%;
+    padding: 6em;
+    background: yellow;
+    border: rgb(165, 165, 165) solid 2px;
+  }
+  #fegCol {
+
+    display: flex;
+    flex-flow: column;
+    width: 0em;
+    padding: 0em;
+    background: green;
+  }
+  #feg_img {
+    width: 10em;
+    height: 10em;
+    object-fit: cover;
+    border-radius: 0%;
+  }
+  #whatsinfeg {
+    border: rgb(165, 165, 165) solid 2px;
+    background: white;
+  }
+  #smallerBox, #feg {
+    /* width: 95%; */
+  }
+  #smallerBox {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+  #whatsin {
+    width: 100%;
+  }
+  #feg{
+    background:white;
+    /* width:80% */
+  }
+}
+
+#more_feg {
+  background:  rgb(255, 255, 255);
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  padding:0.5em;
+  align-items: center;
+  width: 2em;
+  /* width: 100%; */
+  position: relative;
+  height: 30em;
+  
+  /* border: rgba(0, 0, 0, 0.186) solid 2px; */
+}
+
+#more_button {
+  height: 30em;
+  width: 100%;
+  height: 100%;
+}
+
+#nutrient_row {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  flex-flow: row;
+}
+
+#total_nutrition {
+  display: flex;
+  flex-flow: row;
+}
+
+#nutrients {
+  background:  rgba(252, 245, 238, 0.74);
+  display: flex wrap ;
+  flex-flow: row;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+}
+
+#nutrient {
+  background:  rgba(118, 241, 255, 0.186);
+  display: flex wrap;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+  position: relative;
+  font-size: 80%;
+  width:100%;
+}
+/* 
+input {
+  margin: .4rem;
+} */
+
+/* #displayFeg {
+  margin: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between
+} */
