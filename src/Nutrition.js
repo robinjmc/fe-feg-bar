@@ -99,28 +99,42 @@ class Nutrition extends Component {
     render() {
         let { loading } = this.state;
         let { feg_nutrition } = this.props
+        let start = 0
         return (
             <div id="total_nutrition">
-                {Object.values(feg_nutrition).reduce((acc, curr, i) => {
+                {/* {Object.values(feg_nutrition).reduce((acc, curr, i) => {
                     if (curr.length > 0) {
-                        if (i == 0) {
+                        if (i === start) {
                             return acc = curr
                         }
                         else if (i > 0) {
-                            acc = curr.map((nutrient, i) => {
+                            
+                            let test = curr[0] ? curr : [["nf_calories",0],["nf_total_fat",0],["nf_saturated_fat",0],["nf_cholesterol",0],["nf_sodium",0],["nf_total_carbohydrate",0],["nf_dietary_fiber",0],["nf_sugars",0],["nf_protein",0],["nf_potassium",0],["nf_p",0]]
+                            
+                            acc = test.map((nutrient, i) => {
+                                if(acc[i]){
                                 return [acc[i][0], acc[i][1] + nutrient[1]]
+                            } else {
+
+                            }
                             })
                         }
+                    } else {
+                        return start =+ start + 1
                     }
+                    if(acc === undefined){
+                        console.log("hello")
                     return acc
+                    }
                 }, []).map((nutrients, i) => {
+                    console.log(nutrients)
                     return (
                         <div key={i}>
                             <p>Basket {nutrients[0]}: {Number(nutrients[1].toFixed(4))}</p>
                         </div>
                     )
 
-                })}
+                })} */}
             </div>
             // <div>
             //     Nutrition

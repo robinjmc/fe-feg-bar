@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Link } from "react-router-dom";
 
 import FegData from './FegData';
-
+import AddToBasket from './AddToBasket'
 class WhatsIn extends Component {
    
     state = {
@@ -105,8 +105,6 @@ class WhatsIn extends Component {
             })
         }
     }
-
-    
 
     post_feg = (feg, e) => {
         e.preventDefault();
@@ -229,7 +227,7 @@ console.log(at_best)
                     <div id='whatsin'>
                         <div id="whatsinfegcontainer">
                             <div id="more_feg" style={col_width}>
-                                <form onSubmit={e => this.less_feg(at_best, e)} >
+                                <form style={{width: "100%", height: "100%"}} onSubmit={e => this.less_feg(at_best, e)} >
                                     <button id="more_button"type="submit">
                                         |
                                     </button>
@@ -244,22 +242,23 @@ console.log(at_best)
                                             let [food] = feg_data ? feg_data.filter(feg => feg.food_name === lower) : null
                                             let image = food ? food.photo.highres : feg.img_src
                                             let entries = food ? Object.entries(food).filter(key => key[0].match(/nf_/g)) : null
-                                            let nutrients = `${entries}`
-                                            console.log(JSON.stringify(entries), feg_data, nutrients)
+                                            let nutrients = entries === null ?  `${[["nf_calories",0],["nf_total_fat",0],["nf_saturated_fat",0],["nf_cholesterol",0],["nf_sodium",0],["nf_total_carbohydrate",0],["nf_dietary_fiber",0],["nf_sugars",0],["nf_protein",0],["nf_potassium",0],["nf_p",0]] }` : `${entries}` 
+                                            console.log(entries, nutrients)
                                             return (
                                                 <div id='smallerBox' style={{ padding: "0px"}} key={feg.at_best_id}>
                                                     <div id="feg">
                                                         <div >
-                                                            <img id="feg_img" alt={feg.img_src} src={image} />
+                                                            <img id="feg_img" alt={feg.feg_type_id} src={image} />
                                                         </div>
                                                         <h1>{upper}</h1>
                                                         <div style={{"display": "flex", "flexFlow": "row", "justifyContent":"center", "alignItems":"center"}}>
                                                             {/* <div ></div>
                                                             <div >{amount_added ? <p>{amount_added}</p> : <div></div>}</div> */}
                                                             <div >
-                                                            <form onSubmit={e => this.post_feg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: image, amount: "1", nutrients: nutrients}, e)}>
+                                                                <AddToBasket feggie_id={`${feg.feggie_id}`} feg_name={feg.name} img_src={image} nutrients={nutrients}/>
+                                                            {/* <form onSubmit={e => this.post_feg({ feggie_id: `${feg.feggie_id}`, feg_name: feg.name, img_src: image, amount: "1", nutrients: nutrients}, e)}>
                                                                 <button style={{height:"5em", width:"5em"}} type="submit">{amount_added ? <p>{amount_added}</p> : <p>+</p>}</button>
-                                                            </form>
+                                                            </form> */}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -270,7 +269,7 @@ console.log(at_best)
 
                             </div>
                             <div id="more_feg" style={col_width} >
-                                <form onSubmit={e => this.more_feg(at_best, e)}>
+                                <form style={{width: "100%", height: "100%"}}onSubmit={e => this.more_feg(at_best, e)}>
                                     <button id="more_button">
                                         |
                                     </button>

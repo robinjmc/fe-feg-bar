@@ -57,10 +57,29 @@
   position: relative;
   /* border: rgba(0, 0, 0, 0.186) solid 2px; */
 }
+#feg_basket {
+  background:  rgb(255, 255, 255);
+  display: flex wrap;
+  flex-flow: column;
+  justify-content: space-around;
+  padding:1em;
+  align-items: center;
+  width: 20em;
+  position: relative;
+  border: rgba(0, 0, 0, 0.186) solid 2px;
+  font-size: 70%;
+}
 
 #feg_img {
   width: 25em;
   height: 25em;
+  object-fit: cover;
+  border-radius: 0%;
+}
+
+#feg_img_list {
+  width: 10em;
+  height: 10em;
   object-fit: cover;
   border-radius: 0%;
 }
@@ -182,6 +201,15 @@
 
 #more_button {
   height: 30em;
+  width: 100%;
+  height: 100%;
+}
+
+#nutrient_row {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  flex-flow: row;
 }
 
 #total_nutrition {
@@ -205,6 +233,8 @@
   justify-content: space-around;
   align-items: center;
   position: relative;
+  font-size: 80%;
+  width:100%;
 }
 /* 
 input {

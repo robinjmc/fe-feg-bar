@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import FegAmount from './FegAmount';
 import Nutrition from './Nutrition'
+import DisplayNutrition from './DisplayNutrition'
 import numeral from 'numeral';
 import update from 'immutability-helper';
 
@@ -230,6 +231,15 @@ class FegList extends Component {
     //     }))
     // }
 
+    // display_nutrients = (view, e) => {
+    //     e.preventDefault();
+    //     if (view === 'show') {
+    //         return display_feg = true;
+    //     }
+    //     else if (view === 'hide') {
+    //         return display_feg = false
+    //     }
+    // }
 
     calculate = (value, rda) => {
         console.log(value, rda)
@@ -254,38 +264,62 @@ class FegList extends Component {
                             <div>
                                 <Link to='/whats-in-guv'>
                                     {/* <button> */}
-                                        <p>more feg</p>
+                                    <p>more feg</p>
                                     {/* </button> */}
                                 </Link>
                                 <div>
                                     <Nutrition feg_nutrition={feg_nutrition} />
                                 </div>
-                                
+
                             </div>
                             : null}
                 </div>
-                <div id="whatsinfeg">
+                <div id="whatsinfegcontainer">
                     {
                         loading ? <h1>Loading...</h1> :
-                            <div>
+                            <div id="whatsinfeg">
                                 {
                                     feg_list.length > 0 ?
                                         feg_list.map(feg => {
                                             console.log(feg)
                                             let feg_name = /_/g.test(feg.feg_name) ? feg.feg_name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.feg_name[0].toUpperCase() + feg.feg_name.slice(1)
                                             feg_nutrition[feg.feg_name] = []
+                                            // let display_feg = false;
                                             console.log(feg_nutrition, feg.feg_list_id)
                                             return (
-                                                <div style={{ padding: "10px" }} key={feg.feg_list_id}>
-                                                    <div id="feg">
+                                                <div style={{ padding: "0px" }} key={feg.feg_list_id}>
+                                                    <div id="feg_basket">
                                                         <h1>{feg_name}</h1>
                                                         <div >
-                                                            <img id="feg_img" alt={feg.feg_type_id} src={feg.img_src} />
+                                                            <img id="feg_img_list" alt={feg.feg_type_id} src={feg.img_src} />
                                                         </div>
-                                                        <div >
-                                                            <FegAmount feg_list_id={`${feg.feg_list_id}`} feggie_id={`${feg.feggie_id}`} feg_name={feg.feg_name} img_src={feg.img_src} feg_amount={feg.amount} fegRemoved={this.fegRemoved} amount_change={this.amount_change} />
+                                                        <div style={{ display: "flex", justifyContent: "space-around", flexFlow: "row wrap" }}>
+                                                            <div>
+                                                            </div>
+                                                            <div>
+                                                                <FegAmount feg_list_id={`${feg.feg_list_id}`} feggie_id={`${feg.feggie_id}`} feg_name={feg.feg_name} img_src={feg.img_src} feg_amount={feg.amount} fegRemoved={this.fegRemoved} amount_change={this.amount_change} />
+
+                                                            </div>
+
+                                                            <div>
+                                                            </div>
                                                         </div>
-                                                        {/* calc_total={this.calc_total} reset={this.reset_nutrients} */}
+                                                        <div>
+                                                            {
+                                                                // display_feg ?
+                                                                // <form onSubmit={e => this.show_nutrients('hide', e, display_feg)}>
+                                                                //     <button style={{ width: "100%", height: "100%", padding: "1em", fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em" }} >
+                                                                //     nutrients
+                                                                //     </button>
+                                                                // </form>
+                                                                // :
+                                                                // <form onSubmit={e => this.show_nutrients('show', e, display_feg)}>
+                                                                //     <button style={{ width: "100%", height: "100%", padding: "1em", fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em" }}>
+                                                                //     nutrients
+                                                                //     </button>
+                                                                // </form>
+                                                            }
+                                                        </div>
                                                         <div >
                                                             {
                                                                 feg.nutrients ?
@@ -296,18 +330,12 @@ class FegList extends Component {
                                                                                 let total_value = breakdown[1] ? Number((breakdown[1] * feg.amount).toFixed(4)) : breakdown[1]
                                                                                 console.log(feg.feg_name)
                                                                                 if (total[breakdown[0]] !== undefined) {
+                                                                                    feg_nutrition[feg.feg_name].push([breakdown[0], total_value])
                                                                                     return (
                                                                                         <div >
-                                                                                            {feg_nutrition[feg.feg_name].push([breakdown[0], total_value])}
-                                                                                            <div id="nutrient">
-                                                                                                <p>{breakdown[0]} of 1 serving:</p>
-                                                                                                <p>{breakdown[1]}</p>
-                                                                                            </div>
-                                                                                            <div id="nutrient">
-                                                                                                <p>Total {breakdown[0]}: </p>
-                                                                                                <p>{total_value}</p>
-                                                                                            </div>
-                                                                                        </div>
+                                                                                                <DisplayNutrition name={breakdown[0]} per_portion={breakdown[1]} total={total_value} />
+                                                                                         </div>
+
                                                                                     )
                                                                                 }
                                                                             })
@@ -321,13 +349,13 @@ class FegList extends Component {
                                             )
                                         }) :
                                         <div>
-                                            
-                                        <Link to='/whats-in-guv'>
-                                            {/* <button> */}
-                                            <img alt="Get Me Feg!" src="https://media.giphy.com/media/2AL9ryaLCciMsqHYlr/giphy.gif" /> 
-                                            {/* </button> */}
-                                        </Link>
-                                        <h2>Your basket is empty</h2>
+
+                                            <Link to='/whats-in-guv'>
+                                                {/* <button> */}
+                                                <img alt="Get Me Feg!" src="https://media.giphy.com/media/2AL9ryaLCciMsqHYlr/giphy.gif" />
+                                                {/* </button> */}
+                                            </Link>
+                                            <h2>Your basket is empty</h2>
                                         </div>
                                 }
                             </div>
