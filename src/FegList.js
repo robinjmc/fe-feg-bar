@@ -261,7 +261,7 @@ class FegList extends Component {
                     <h1>Feg Basket</h1>
                     {
                         feg_list.length > 0 ?
-                            <div>
+                            <div class="button">
                                 <Link to='/whats-in-guv'>
                                     {/* <button> */}
                                     <p>more feg</p>
@@ -281,11 +281,9 @@ class FegList extends Component {
                                 {
                                     feg_list.length > 0 ?
                                         feg_list.map(feg => {
-                                            console.log(feg)
                                             let feg_name = /_/g.test(feg.feg_name) ? feg.feg_name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.feg_name[0].toUpperCase() + feg.feg_name.slice(1)
                                             feg_nutrition[feg.feg_name] = []
                                             // let display_feg = false;
-                                            console.log(feg_nutrition, feg.feg_list_id)
                                             return (
                                                 <div style={{ padding: "0px" }} key={feg.feg_list_id}>
                                                     <div id="feg_basket">
@@ -328,7 +326,6 @@ class FegList extends Component {
                                                                             feg.nutrients.split('nf_').map(nutrient => {
                                                                                 let breakdown = nutrient.split(',')
                                                                                 let total_value = breakdown[1] ? Number((breakdown[1] * feg.amount).toFixed(4)) : breakdown[1]
-                                                                                console.log(feg.feg_name)
                                                                                 if (total[breakdown[0]] !== undefined) {
                                                                                     feg_nutrition[feg.feg_name].push([breakdown[0], total_value])
                                                                                     return (

@@ -41,7 +41,7 @@ class AddToBasket extends Component {
         return (
             <div >
                 <form onSubmit={e => this.post_feg({ feggie_id: `${feggie_id}`, feg_name: feg_name, img_src: img_src, amount: "1", nutrients: nutrients }, e)}>
-                    <button style={{ height: "5em", width: "5em" }} type="submit">{amount_added ? <p>{amount_added}</p> : <p>+</p>}</button>
+                    <button class="button" style={{ height: "5em", width: "5em" }} type="submit">{amount_added ? <p>{amount_added}</p> : <p>+</p>}</button>
                 </form>
             </div>
         )
