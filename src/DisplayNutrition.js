@@ -32,7 +32,7 @@ class DisplayNutrition extends Component {
         return (
             <div id="nutrient_row">
                 <div id="nutrient">
-                    <p>{nutrient_name}</p>
+                    <p >{nutrient_name}</p>
                     {portion_display ?
                         <div /*id="nutrient"*/>
                             <p>{per_portion}</p>
@@ -49,13 +49,13 @@ class DisplayNutrition extends Component {
                         portion_display ?
                         
                             <form onSubmit={e => this.toggle('portion_display', 'hide', e)}>
-                                <button style={{width: "100%", height:"100%", padding:"1em", fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}} >
+                                <button class="button" style={{width: "80%", height:"0%", padding:"0.4em", fontSize:"2em",fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}} >
                                 per portion
                             </button>
                             </form>
                             :
                             <form onSubmit={e => this.toggle('portion_display', 'show', e)}>
-                                <button style={{ width: "100%", height:"100%", padding:"1em", fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}}>
+                                <button class="button" style={{ width: "80%", height:"0%", padding:"0.4em", fontSize:"2em",fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}}>
                                 per portion
                             </button>
                             </form>
@@ -64,13 +64,13 @@ class DisplayNutrition extends Component {
                     {
                         total_display ?
                             <form style={{color: "green"}} onSubmit={e => this.toggle('total_display', 'hide', e)} >
-                                <button style={{ width: "100%", height:"100%", padding:"1em", fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}}>
+                                <button class="button" style={{ width: "80%", height:"0%", padding:"0.4em", fontSize:"2em",fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}}>
                                     total
                             </button>
                             </form>
                             :
                             <form onSubmit={e => this.toggle('total_display', 'show', e)}>
-                                <button style={{ width: "100%", height:"100%", padding:"1em", fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}}>
+                                <button  class="button" style={{ width: "80%", height:"0%", padding:"0.4em", fontSize:"2em",fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}}>
                                     total
                             </button>
                             </form>

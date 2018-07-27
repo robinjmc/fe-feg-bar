@@ -84,14 +84,14 @@ class FegAmount extends Component {
         <div id="feg_info">
           <div>
             <form onSubmit={amount > 1 ? e => this.lessFeg(this.props, e) : e => this.deleteFeg(this.props, e)}
-            ><button>-</button></form>
+            ><button class="button">-</button></form>
           </div>
           <div>
             <h1>{amount}</h1>
           </div>
           <div>
             <form onSubmit={e => this.moreFeg(this.props, e)}
-            ><button>+</button></form>
+            ><button class="button">+</button></form>
           </div>
         </div>
       </div>
