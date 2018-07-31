@@ -29,11 +29,9 @@ class FegData extends Component {
     }).join(' ')
     }
     componentDidMount() {
-        console.log(this.props)
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log(this.props, nextProps)
         if (this.props.coming_in !== nextProps.coming_in) {
             this.setState({
                 coming_in: nextProps.coming_in
@@ -75,7 +73,6 @@ class FegData extends Component {
                                 return res.json()
                 })
                 .then(({foods}) => {
-                    console.log(foods)
                     this.props.update(foods)
                     this.setState({
                         feg_nutrients: foods,
