@@ -6,6 +6,7 @@ import Nutrition from './Nutrition'
 import DisplayNutrition from './DisplayNutrition'
 import numeral from 'numeral';
 import update from 'immutability-helper';
+import BasketHeader from './BasketHeader';
 
 class FegList extends Component {
     state = {
@@ -27,16 +28,6 @@ class FegList extends Component {
             sugars: 0,
             total_carbohydrate: 0,
             total_fat: 0
-            // nf_calories: 0,
-            // nf_cholesterol: 0,
-            // nf_dietary_fiber: 0,
-            // nf_potassium: 0,
-            // nf_protein: 0,
-            // nf_saturated_fat: 0,
-            // nf_sodium: 0,
-            // nf_sugars: 0,
-            // nf_total_carbohydrate: 0,
-            // nf_total_fat: 0
         }
     }
 
@@ -254,6 +245,7 @@ class FegList extends Component {
     render() {
         const { feg_list, loading, total_nutrition: total } = this.state;
         let feg_nutrition = {}
+        let feggie_nut = []
         console.log(feg_nutrition)
         return (
             <div>
@@ -270,9 +262,10 @@ class FegList extends Component {
                                 <div>
                                     <Nutrition feg_nutrition={feg_nutrition} />
                                 </div>
-
                             </div>
-                            : null}
+                            : null
+                    }
+                    <BasketHeader feg_nutrition={feg_nutrition} feggie_nut={feggie_nut}/>
                 </div>
                 <div id="whatsinfegcontainer">
                     {
@@ -283,6 +276,7 @@ class FegList extends Component {
                                         feg_list.map(feg => {
                                             let feg_name = /_/g.test(feg.feg_name) ? feg.feg_name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.feg_name[0].toUpperCase() + feg.feg_name.slice(1)
                                             feg_nutrition[feg.feg_name] = []
+                                            feggie_nut.push(feg.feg_name)
                                             // let display_feg = false;
                                             return (
                                                 <div style={{ padding: "0px" }} key={feg.feg_list_id}>
@@ -296,9 +290,7 @@ class FegList extends Component {
                                                             </div>
                                                             <div>
                                                                 <FegAmount feg_list_id={`${feg.feg_list_id}`} feggie_id={`${feg.feggie_id}`} feg_name={feg.feg_name} img_src={feg.img_src} feg_amount={feg.amount} fegRemoved={this.fegRemoved} amount_change={this.amount_change} />
-
                                                             </div>
-
                                                             <div>
                                                             </div>
                                                         </div>
@@ -328,11 +320,15 @@ class FegList extends Component {
                                                                                 let total_value = breakdown[1] ? Number((breakdown[1] * feg.amount).toFixed(4)) : breakdown[1]
                                                                                 if (total[breakdown[0]] !== undefined) {
                                                                                     feg_nutrition[feg.feg_name].push([breakdown[0], total_value])
+                                                                                    feggie_nut.push([breakdown[0], total_value])
                                                                                     return (
                                                                                         <div >
-                                                                                                <DisplayNutrition name={breakdown[0]} per_portion={breakdown[1]} total={total_value} />
-                                                                                         </div>
-
+                                                                                            <DisplayNutrition name={breakdown[0]} per_portion={breakdown[1]} total={total_value} />
+                                                                                        </div>
+                                                                                    )
+                                                                                } else {
+                                                                                    return (
+                                                                                    <div></div>
                                                                                     )
                                                                                 }
                                                                             })

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { capitalize } from 'lodash';
-import { access } from 'fs';
 class Nutrition extends Component {
     state = {
         loading: true,

@@ -10,7 +10,6 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <header>
-            {/* <img alt="feg bar logo" src="https://image.ibb.co/nmFL6d/untitled.png"/> */}
           </header>
           <FegBar />
           <footer>

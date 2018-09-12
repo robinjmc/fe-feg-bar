@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 class FegAmount extends Component {
   state = {
     amount: 1,
@@ -8,12 +7,11 @@ class FegAmount extends Component {
     body: {}
   }
   componentDidMount() {
-    console.log(this.props.feg_amount, 'mount')
     this.setState({
       amount: this.props.feg_amount
     })
   }
-  moreFeg = (feg, e) => {
+  more_feg = (feg, e) => {
     e.preventDefault();
     fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}?amount=up`, {
       method: 'PUT',
@@ -26,7 +24,6 @@ class FegAmount extends Component {
         return res.json()
       })
       .then(({ feg_list }) => {
-        console.log('up')
         this.setState({
           amount: feg_list.amount,
           fegStatus: 'increment'
@@ -35,7 +32,7 @@ class FegAmount extends Component {
       })
   }
 
-  lessFeg = (feg, e) => {
+  less_feg = (feg, e) => {
     e.preventDefault();
     // console.log(this.props.reset)
     fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}?amount=down`, {
@@ -57,7 +54,7 @@ class FegAmount extends Component {
       })
   }
 
-  deleteFeg = (feg, e) => {
+  delete_feg = (feg, e) => {
     e.preventDefault();
     fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}`, {
       method: 'DELETE',
@@ -78,19 +75,18 @@ class FegAmount extends Component {
   }
   render() {
     let { amount } = this.state
-    console.log(amount, 'render')
     return (
       <div>
         <div id="feg_info">
           <div>
-            <form onSubmit={amount > 1 ? e => this.lessFeg(this.props, e) : e => this.deleteFeg(this.props, e)}
+            <form onSubmit={amount > 1 ? e => this.less_feg(this.props, e) : e => this.delete_feg(this.props, e)}
             ><button class="button">-</button></form>
           </div>
           <div>
             <h1>{amount}</h1>
           </div>
           <div>
-            <form onSubmit={e => this.moreFeg(this.props, e)}
+            <form onSubmit={e => this.more_feg(this.props, e)}
             ><button class="button">+</button></form>
           </div>
         </div>
