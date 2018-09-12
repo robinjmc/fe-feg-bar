@@ -42,7 +42,7 @@ class AddToBasket extends Component {
         return (
             <div >
                 <div onClick={e => this.post_feg({ feggie_id: `${feggie_id}`, feg_name: feg_name, img_src: img_src, amount: "1", nutrients: nutrients }, e)}>
-                  <img id="feg_img"  alt={feg_name} src={img_src} />
+                  <img id="feg_img" src={img_src ? img_src : 'https://c.pxhere.com/photos/06/4a/vegetables_season_leek_apple_useful_health_pumpkin_cabbage-673328.jpg!d'} alt={feg_name}/>
                 </div>
                 <div style={{ "display": "flex", "flexFlow": "row", "justifyContent": "center", "alignItems": "center" }}>
                     <form onSubmit={e => this.post_feg({ feggie_id: `${feggie_id}`, feg_name: feg_name, img_src: img_src, amount: "1", nutrients: nutrients }, e)}>
