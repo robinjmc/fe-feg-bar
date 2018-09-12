@@ -168,6 +168,7 @@ class WhatsIn extends Component {
         let { at_best, coming_in, loading, page, amount_added, soon_display, amount_display, at_best_shuffled, feg_data } = this.state;
         let col_width = amount_display === 1 || amount_display === 3 ? { "width": "100%" } : null
         let next_height = amount_display === 1 ? { "height": "34em" } : amount_display === 3 ?{ "height": "112em" } : null
+        console.log(at_best[page] ? true : false, at_best, page)
         return (
             <div>
                 <FegData coming_in={coming_in} at_best={at_best_shuffled} update={this.update_data} />
@@ -185,7 +186,7 @@ class WhatsIn extends Component {
                                 <Link to='/my-feg-list'>
                                     <div id="basket" >
                                         <div id="basket_col"></div>
-                                        <i id="basket_col" class="fas fa-shopping-basket"></i>
+                                        <i id="basket_col" className="fas fa-shopping-basket"></i>
                                         <div id="basket_col" ><p><sup>{amount_added ? amount_added : null}</sup></p></div>
                                     </div>
                                     <p >Basket</p>
@@ -220,12 +221,12 @@ class WhatsIn extends Component {
                                 <div id="whatsinfegcontainer" style={next_height}>
                                     <div id="more_feg" style={col_width}>
                                         <form id="more_form" onSubmit={e => this.less_feg(at_best, e)} >
-                                            <button class="button" id="more_button" type="submit">|</button>
+                                            <button className="button" id="more_button" type="submit">|</button>
                                         </form>
                                     </div>
                                     <div id="whatsinfeg">
                                         {
-                                            at_best.length > 0 ? at_best[page].map(feg => {
+                                            at_best[page] ? at_best[page].map(feg => {
                                                 let lower = /_/g.test(feg.name) ? feg.name.split('_').join(' ') : feg.name
                                                 let upper = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
                                                 let [food] = feg_data ? feg_data.filter(feg => feg.food_name === lower) : null
@@ -248,18 +249,18 @@ class WhatsIn extends Component {
                                     </div>
                                     <div id="more_feg" style={col_width} >
                                         <form style={{ width: "100%", height: "100%" }} onSubmit={e => this.more_feg(at_best, e)}>
-                                            <button class="button" id="more_button">|</button>
+                                            <button className="button" id="more_button">|</button>
                                         </form>
                                     </div>
                                 </div>
                                 <div style={{ padding: "3em" }}>
                                     {soon_display ?
                                         <form onSubmit={e => this.toggle_soon('hide', e)}>
-                                            <button class="button">Coming Soon</button>
+                                            <button className="button">Coming Soon</button>
                                         </form>
                                         :
                                         <form onSubmit={e => this.toggle_soon('show', e)}>
-                                            <button class="button">Coming Soon</button>
+                                            <button className="button">Coming Soon</button>
                                         </form>
                                     }
                                 </div>
