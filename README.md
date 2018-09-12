@@ -1,4 +1,4 @@
-#Fegbar Front End
+# Fegbar Front End
 Fegbar is a seasonal fruit & vegetable guide and nutrition calculator. In season fruit & vegetables, or 'Feg', are displayed indiviually or in a grid format for users to explore. Feg that are coming in to season soon are displayed in a grid format at the bottom of the homepage. Via the API in season Feg can be added to a basket it, where, each Feg's nutritional information is calculated from data fetched from an external API. 
 
 ## Getting Started
