@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import moment from 'moment';
 import { Link } from "react-router-dom";
 
+import { getAllFegTypes, getWhatsInByMonth } from "./Api"
 import FegData from './FegData';
 import AddToBasket from './AddToBasket'
 class WhatsIn extends Component {
@@ -38,48 +38,27 @@ class WhatsIn extends Component {
     }
 
     componentDidMount() {
-        fetch('https://feg-bar.herokuapp.com/api/months')
-            .then(res => {
-                return res.json()
-            })
-            .then(({ months }) => {
-                let date = moment().format('MMMM')
-                let [month] = months.filter(month => month.month_name === date)
+        let at_best = getWhatsInByMonth('at_best');
+        let coming_in = getWhatsInByMonth('coming_in'); 
+        let feg_types = getAllFegTypes();
+        return Promise.all([at_best,coming_in,feg_types])
+            .then((values) => {
+                let best = values[0].feggies
+                let coming_in = values[1].feggies
+                let {feg_types} = values[2]
+                let at_best_shuffled = this.shuffle(best)
                 this.setState({
-                    month: month
-                })
-                return fetch(`https://feg-bar.herokuapp.com/api/months/${month.months_id}/at_best`)
-            })
-            .then(res => {
-                return res.json()
-            })
-            .then(({ feggies }) => {
-                this.setState({
-                    at_best_shuffled: this.shuffle(feggies)
-                })
-                return fetch(`https://feg-bar.herokuapp.com/api/months/${this.state.month.months_id}/coming_in`)
-            })
-            .then(res => {
-                return res.json()
-            })
-            .then(({ feggies }) => {
-                this.setState({
-                    coming_in: feggies,
-                    at_best: this.chunkArray(this.state.at_best_shuffled, this.state.amount_display)
-                })
-                return fetch('https://feg-bar.herokuapp.com/api/feg_types')
-            })
-            .then(res => {
-                return res.json()
-            })
-            .then(({ feg_types }) => {
-                this.setState({
-                    feg_types: feg_types,
+                    at_best_shuffled,
+                    at_best: this.chunkArray(at_best_shuffled, this.state.amount_display),
+                    coming_in,
+                    feg_types,
                     loading: false,
                     how_big: window.innerWidth
                 })
-            })
+            });
+
     }
+
     componentDidUpdate(prevProps, prevState) {
         let { page, feg_status, amount_added, amount_display, at_best_shuffled } = this.state
         if (prevState.page !== page) {

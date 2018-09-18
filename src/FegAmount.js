@@ -34,7 +34,6 @@ class FegAmount extends Component {
 
   less_feg = (feg, e) => {
     e.preventDefault();
-    // console.log(this.props.reset)
     fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}?amount=down`, {
       method: 'PUT',
       body: JSON.stringify(feg),

@@ -20,24 +20,13 @@ class BasketHeader extends Component {
 
     render() {
         let { feggie_nut } = this.props
-        let total = feggie_nut.reduce((acc, curr, i) => {
+        let total = [...feggie_nut].reduce((acc, curr, i) => {
             i % 11 ? acc.push(curr) : console.log(curr)
             return acc
         }, [])
         let nutrients = ['calories', 'cholesterol', 'dietary_fiber', 'potassium', 'protein', 'saturated_fat', 'sodium', 'sugars', 'total_carbohydrate', 'total_fat']
-        console.log(this.props.feggie_nut, total)
         return (
-            <div id="total_nutrition" >
-                {/* {
-                    feggie_nut.map((feg, i) => {
-                        if (i % 11 === 0) {
-                            console.log(feg)
-                        }
-                        else {
-                            total.push(feg)
-                        }
-                    })
-                } */}
+            <div id="total_nutrition">
                 {
                     nutrients.map(nutrient => {
                         let nutrient_total = total.filter(feg => feg[0] === nutrient).reduce((acc, curr) => {
