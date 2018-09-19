@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { shuffle, chunkArray } from "./Utils"
 import { getAllFegTypes, getWhatsInByMonth } from "./Api"
 import FegData from './FegData';
-import AddToBasket from './AddToBasket'
+import CurrentFeg from "./CurrentFeg";
 
 class WhatsIn extends Component {
     state = {
@@ -19,13 +19,13 @@ class WhatsIn extends Component {
 
     componentDidMount() {
         let at_best = getWhatsInByMonth('at_best');
-        let coming_in = getWhatsInByMonth('coming_in'); 
+        let coming_in = getWhatsInByMonth('coming_in');
         let feg_types = getAllFegTypes();
-        return Promise.all([at_best,coming_in,feg_types])
+        return Promise.all([at_best, coming_in, feg_types])
             .then((values) => {
                 let best = values[0].feggies
                 let coming_in = values[1].feggies
-                let {feg_types} = values[2]
+                let { feg_types } = values[2]
                 let at_best_shuffled = shuffle(best)
                 this.setState({
                     at_best_shuffled,
@@ -124,7 +124,7 @@ class WhatsIn extends Component {
     render() {
         let { at_best, coming_in, loading, page, amount_added, soon_display, amount_display, at_best_shuffled, feg_data } = this.state;
         let col_width = amount_display === 1 || amount_display === 3 ? { "width": "100%" } : null
-        let next_height = amount_display === 1 ? { "height": "34em" } : amount_display === 3 ?{ "height": "112em" } : null
+        let next_height = amount_display === 1 ? { "height": "34em" } : amount_display === 3 ? { "height": "112em" } : null
         return (
             <div>
                 <FegData coming_in={coming_in} at_best={at_best_shuffled} update={this.update_data} />
@@ -181,27 +181,7 @@ class WhatsIn extends Component {
                                         </form>
                                     </div>
                                     <div id="whatsinfeg">
-                                        {
-                                            at_best[page] ? at_best[page].map(feg => {
-                                                let lower = /_/g.test(feg.name) ? feg.name.split('_').join(' ') : feg.name
-                                                let upper = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
-                                                let [food] = feg_data ? feg_data.filter(feg => feg.food_name === lower) : null
-                                                let image = food ? food.photo.highres : feg.img_src
-                                                let entries = food ? Object.entries(food).filter(key => key[0].match(/nf_/g)) : null
-                                                let nutrients = entries === null ? `${[["nf_calories", 0], ["nf_total_fat", 0], ["nf_saturated_fat", 0], ["nf_cholesterol", 0], ["nf_sodium", 0], ["nf_total_carbohydrate", 0], ["nf_dietary_fiber", 0], ["nf_sugars", 0], ["nf_protein", 0], ["nf_potassium", 0], ["nf_p", 0]]}` : `${entries}`
-                                                return (
-                                                    <div id='smallerBox' style={{ padding: "0px" }} key={feg.at_best_id}>
-                                                        <div id="feg">
-                                                            <h1 style={{ height: "3em" }}>{upper}</h1>
-                                                            <div>
-                                                                <AddToBasket feggie_id={`${feg.feggie_id}`} feg_name={feg.name} img_src={image} nutrients={nutrients} posted={this.post_feg} />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )
-                                            }) : <div></div>
-                                        }
-
+                                        <CurrentFeg feggies={at_best[page]} feg_data={feg_data} posted={this.post_feg} best={true} />
                                     </div>
                                     <div id="more_feg" style={col_width} >
                                         <form style={{ width: "100%", height: "100%" }} onSubmit={e => this.more_feg(at_best, e)}>
@@ -223,22 +203,7 @@ class WhatsIn extends Component {
                                 <div id="whatsinfeg">
                                     {soon_display ?
                                         loading ? <p>Loading...</p> :
-                                            coming_in.map(feg => {
-                                                let lower = /_/g.test(feg.name) ? feg.name.split('_').join(' ') : feg.name
-                                                let upper = /_/g.test(feg.name) ? feg.name.split('_').map(name => name[0].toUpperCase() + name.slice(1)).join(' ') : feg.name[0].toUpperCase() + feg.name.slice(1)
-                                                let [food] = feg_data ? feg_data.filter(feg => feg.food_name === lower) : null
-                                                let image = food ? food.photo.highres : feg.img_src
-                                                return (
-                                                    <div style={{ padding: "10px" }} key={feg.coming_in_id}>
-                                                        <div id="feg">
-                                                            <h1>{upper}</h1>
-                                                            <div >
-                                                                <img id="feg_img" alt={feg.name} src={image} />
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                )
-                                            })
+                                            <CurrentFeg feggies={coming_in} feg_data={feg_data} posted={this.post_feg} best={false} />
                                         : null
                                     }
                                 </div>
