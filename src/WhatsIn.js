@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-
+import { shuffle, chunkArray } from "./Utils"
 import { getAllFegTypes, getWhatsInByMonth } from "./Api"
 import FegData from './FegData';
 import AddToBasket from './AddToBasket'
+
 class WhatsIn extends Component {
     state = {
         loading: true,
@@ -16,27 +17,6 @@ class WhatsIn extends Component {
         at_best: []
     }
 
-    shuffle = (array) => {
-        var currentIndex = array.length, temporaryValue, randomIndex;
-        while (0 !== currentIndex) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex -= 1;
-            temporaryValue = array[currentIndex];
-            array[currentIndex] = array[randomIndex];
-            array[randomIndex] = temporaryValue;
-        }
-        return array;
-    }
-
-    chunkArray = (array, chunk) => {
-        const newArray = [...array]
-        let results = [];
-        while (newArray.length) {
-            results.push(newArray.splice(0, chunk));
-        }
-        return results;
-    }
-
     componentDidMount() {
         let at_best = getWhatsInByMonth('at_best');
         let coming_in = getWhatsInByMonth('coming_in'); 
@@ -46,18 +26,17 @@ class WhatsIn extends Component {
                 let best = values[0].feggies
                 let coming_in = values[1].feggies
                 let {feg_types} = values[2]
-                let at_best_shuffled = this.shuffle(best)
+                let at_best_shuffled = shuffle(best)
                 this.setState({
                     at_best_shuffled,
-                    at_best: this.chunkArray(at_best_shuffled, this.state.amount_display),
+                    at_best: chunkArray(at_best_shuffled, this.state.amount_display),
                     coming_in,
                     feg_types,
                     loading: false,
                     how_big: window.innerWidth
-                })
+                });
             });
-
-    }
+    };
 
     componentDidUpdate(prevProps, prevState) {
         let { page, feg_status, amount_added, amount_display, at_best_shuffled } = this.state
@@ -75,7 +54,7 @@ class WhatsIn extends Component {
         if (prevState.amount_display !== amount_display || prevState.at_best_shuffled !== at_best_shuffled) {
             this.setState({
                 amount_display: amount_display,
-                at_best: this.chunkArray(at_best_shuffled, this.state.amount_display)
+                at_best: chunkArray(at_best_shuffled, this.state.amount_display)
             })
         }
     }
@@ -87,7 +66,6 @@ class WhatsIn extends Component {
     }
 
     more_feg = (arr, e) => {
-        console.log('more')
         let { page } = this.state
         e.preventDefault();
         if (page < arr.length - 1) {
@@ -147,7 +125,6 @@ class WhatsIn extends Component {
         let { at_best, coming_in, loading, page, amount_added, soon_display, amount_display, at_best_shuffled, feg_data } = this.state;
         let col_width = amount_display === 1 || amount_display === 3 ? { "width": "100%" } : null
         let next_height = amount_display === 1 ? { "height": "34em" } : amount_display === 3 ?{ "height": "112em" } : null
-        console.log(at_best[page] ? true : false, at_best, page)
         return (
             <div>
                 <FegData coming_in={coming_in} at_best={at_best_shuffled} update={this.update_data} />
@@ -168,7 +145,7 @@ class WhatsIn extends Component {
                                         <i id="basket_col" className="fas fa-shopping-basket"></i>
                                         <div id="basket_col" ><p><sup>{amount_added ? amount_added : null}</sup></p></div>
                                     </div>
-                                    <p >Basket</p>
+                                    <p>Basket</p>
                                 </Link>
                             </div>
                         </div>
@@ -199,7 +176,7 @@ class WhatsIn extends Component {
                             <div id='whatsin'>
                                 <div id="whatsinfegcontainer" style={next_height}>
                                     <div id="more_feg" style={col_width}>
-                                        <form id="more_form" onSubmit={e => this.less_feg(at_best, e)} >
+                                        <form id="more_form" onSubmit={e => this.less_feg(at_best, e)}>
                                             <button className="button" id="more_button" type="submit">|</button>
                                         </form>
                                     </div>
@@ -215,7 +192,7 @@ class WhatsIn extends Component {
                                                 return (
                                                     <div id='smallerBox' style={{ padding: "0px" }} key={feg.at_best_id}>
                                                         <div id="feg">
-                                                            <h1 style={{ height: "3em" }} >{upper}</h1>
+                                                            <h1 style={{ height: "3em" }}>{upper}</h1>
                                                             <div>
                                                                 <AddToBasket feggie_id={`${feg.feggie_id}`} feg_name={feg.name} img_src={image} nutrients={nutrients} posted={this.post_feg} />
                                                             </div>

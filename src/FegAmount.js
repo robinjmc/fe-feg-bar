@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import {changeFeg, deleteFeg} from "./Api"
 class FegAmount extends Component {
   state = {
     amount: 1,
@@ -13,16 +13,7 @@ class FegAmount extends Component {
   }
   more_feg = (feg, e) => {
     e.preventDefault();
-    fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}?amount=up`, {
-      method: 'PUT',
-      body: JSON.stringify(feg),
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => {
-        return res.json()
-      })
+    changeFeg(feg, 'up')
       .then(({ feg_list }) => {
         this.setState({
           amount: feg_list.amount,
@@ -34,16 +25,7 @@ class FegAmount extends Component {
 
   less_feg = (feg, e) => {
     e.preventDefault();
-    fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}?amount=down`, {
-      method: 'PUT',
-      body: JSON.stringify(feg),
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => {
-        return res.json()
-      })
+    changeFeg(feg, 'down')
       .then(({ feg_list }) => {
         this.setState({
           amount: feg_list.amount,
@@ -55,16 +37,7 @@ class FegAmount extends Component {
 
   delete_feg = (feg, e) => {
     e.preventDefault();
-    fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feg_list_id}`, {
-      method: 'DELETE',
-      body: JSON.stringify(feg),
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => {
-        return res.json()
-      })
+    deleteFeg(feg)
       .then(body => {
         this.setState({
           fegStatus: 'removed'
@@ -72,6 +45,7 @@ class FegAmount extends Component {
         feg.fegRemoved('removed')
       })
   }
+  
   render() {
     let { amount } = this.state
     return (

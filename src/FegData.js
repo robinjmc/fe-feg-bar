@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {getNutrition} from "./Api"
 
 class FegData extends Component {
     state = {
@@ -17,9 +18,9 @@ class FegData extends Component {
             return feg_list.reduce((acc, curr, i, list) => {
             const name = curr.name.split("_") ? curr.name.split("_").join(' ') : curr.name
             if (i === list.length - 1) {
-                acc += '1' + ' ' + name;
+                acc += '1 ' + name;
             } else {
-                acc += '1' + ' ' + name + ' ';
+                acc += '1 ' + name + ' ';
             }
             this.setState({
                 query_length: feg_list.length
@@ -55,23 +56,7 @@ class FegData extends Component {
             })
         }
         if(prevState.query_length  !== query_length){
-            return fetch('https://trackapi.nutritionix.com/v2/natural/nutrients', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'x-app-id': process.env.REACT_APP_NUTRITION_ID,
-                        'x-app-key': process.env.REACT_APP_NUTRITION_KEY,
-                        'x-remote-user-id': process.env.REACT_APP_NUTRITION_USER
-                    },
-                    body: JSON.stringify({
-                        'query': `${query}`,
-                        'timezone': "US/Eastern"
-                    })
-                })
-                .then(res => {
-                                return res.json()
-                })
+            getNutrition(query)
                 .then(({foods}) => {
                     this.props.update(foods)
                     this.setState({
@@ -85,7 +70,7 @@ class FegData extends Component {
 
     render() {
         return(
-            <h1> </h1>
+            <div></div>
         )
        
     }

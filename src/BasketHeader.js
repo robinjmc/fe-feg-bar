@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { capitalize } from 'lodash';
 import numeral from 'numeral';
 
-
 class BasketHeader extends Component {
     state = {
         status: '',

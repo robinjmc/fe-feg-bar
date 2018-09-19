@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-
+import {getFegList} from "./Api"
 import FegAmount from './FegAmount';
-// import Nutrition from './Nutrition'
 import DisplayNutrition from './DisplayNutrition'
 import numeral from 'numeral';
-import update from 'immutability-helper';
+// import update from 'immutability-helper';
 import BasketHeader from './BasketHeader';
 
 class FegList extends Component {
@@ -32,12 +31,8 @@ class FegList extends Component {
     }
 
     componentDidMount() {
-        fetch('https://feg-bar.herokuapp.com/api/feg_list')
-            .then(res => {
-                return res.json()
-            })
+        getFegList()
             .then(({ feg_list }) => {
-                console.log(feg_list)
                 this.setState({
                     loading: false,
                     feg_list: feg_list,
@@ -47,13 +42,9 @@ class FegList extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        console.log(this.state)
-        let { fegRemoved, reset, amount_change } = this.state
+        let { fegRemoved, amount_change } = this.state
         if (fegRemoved) {
-            fetch('https://feg-bar.herokuapp.com/api/feg_list')
-                .then(res => {
-                    return res.json()
-                })
+            getFegList()
                 .then(({ feg_list }) => {
                     this.setState({
                         loading: false,
@@ -63,10 +54,7 @@ class FegList extends Component {
                 })
         }
         if (amount_change) {
-            fetch('https://feg-bar.herokuapp.com/api/feg_list')
-                .then(res => {
-                    return res.json()
-                })
+            getFegList()
                 .then(({ feg_list }) => {
                     this.setState({
                         loading: false,
@@ -93,21 +81,15 @@ class FegList extends Component {
         }
     }
 
-    calculate = (value, rda) => {
-        console.log(value, rda)
+    calculate = (value) => {
         let load = value ? numeral(value).format() : 'calculating'
-        // if(rda){
-        //     return `${numeral((value / rda) * 100).format()} % GDA`
-        // } else {
         return load;
-        // }
     }
 
     render() {
         const { feg_list, loading, total_nutrition: total } = this.state;
         let feg_nutrition = {}
         let feggie_nut = []
-        console.log(feg_nutrition)
         return (
             <div>
                 <div>
@@ -120,9 +102,6 @@ class FegList extends Component {
                                     <p>more feg</p>
                                     {/* </button> */}
                                 </Link>
-                                {/* <div>
-                                    <Nutrition feg_nutrition={feg_nutrition} />
-                                </div> */}
                             </div>
                             : null
                     }
