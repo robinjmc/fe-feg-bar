@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-
+import {postFeg} from "./Api"
 class AddToBasket extends Component {
     state = {
         amount_added: 0,
@@ -19,16 +19,7 @@ class AddToBasket extends Component {
     }
     post_feg = (feg, e) => {
         e.preventDefault();
-        fetch(`https://feg-bar.herokuapp.com/api/feg_list/${feg.feggie_id}`, {
-            method: 'POST',
-            body: JSON.stringify(feg),
-            headers: {
-                'content-type': 'application/json'
-            }
-        })
-            .then(res => {
-                return res.json()
-            })
+        postFeg(feg)
             .then(body => {
                 this.setState({
                     feg_status: 'posted'

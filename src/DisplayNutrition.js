@@ -34,50 +34,48 @@ class DisplayNutrition extends Component {
                 <div id="nutrient">
                     <p >{nutrient_name}</p>
                     {portion_display ?
-                        <div /*id="nutrient"*/>
+                        <div>
                             <p>{per_portion}</p>
                         </div>
                         : null}
                     {total_display ?
-                        <div /*id="nutrient"*/>
+                        <div>
                             <p>{total}</p>
                         </div>
                         : null}
                 </div>
-                <div id="nutrient" style={{alignContent: "flex-end", width: "100%", font: "5px bold"}}>
+                <div id="nutrient" style={{ alignContent: "flex-end", width: "100%", font: "5px bold" }}>
                     {
                         portion_display ?
-                        
                             <form onSubmit={e => this.toggle('portion_display', 'hide', e)}>
-                                <button class="button" style={{width: "80%", height:"0%", padding:"0.4em", fontSize:"2em",fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}} >
-                                per portion
+                                <button class="button" style={{ width: "80%", height: "0%", padding: "0.4em", fontSize: "2em", fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em" }} >
+                                    per portion
                             </button>
                             </form>
                             :
                             <form onSubmit={e => this.toggle('portion_display', 'show', e)}>
-                                <button class="button" style={{ width: "80%", height:"0%", padding:"0.4em", fontSize:"2em",fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}}>
-                                per portion
+                                <button class="button" style={{ width: "80%", height: "0%", padding: "0.4em", fontSize: "2em", fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em" }}>
+                                    per portion
                             </button>
                             </form>
-
                     }
                     {
                         total_display ?
-                            <form style={{color: "green"}} onSubmit={e => this.toggle('total_display', 'hide', e)} >
-                                <button class="button" style={{ width: "80%", height:"0%", padding:"0.4em", fontSize:"2em",fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}}>
+                            <form style={{ color: "green" }} onSubmit={e => this.toggle('total_display', 'hide', e)} >
+                                <button class="button" style={{ width: "80%", height: "0%", padding: "0.4em", fontSize: "2em", fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em" }}>
                                     total
                             </button>
                             </form>
                             :
                             <form onSubmit={e => this.toggle('total_display', 'show', e)}>
-                                <button  class="button" style={{ width: "80%", height:"0%", padding:"0.4em", fontSize:"2em",fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em"}}>
+                                <button class="button" style={{ width: "80%", height: "0%", padding: "0.4em", fontSize: "2em", fontFamily: "Arial Helvetica sans-serif", letterSpacing: "0.25em" }}>
                                     total
                             </button>
                             </form>
 
                     }
                 </div>
-                
+
             </div>
         )
     }
